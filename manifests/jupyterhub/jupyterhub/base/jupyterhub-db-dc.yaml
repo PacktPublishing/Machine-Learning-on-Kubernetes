@@ -1,16 +1,20 @@
-apiVersion: apps.openshift.io/v1
-kind: DeploymentConfig
+# apiVersion: apps.openshift.io/v1
+# kind: DeploymentConfig
+apiVersion: apps/v1
+kind: StatefulSet
+
 metadata:
   labels:
     app: jupyterhub
   name: jupyterhub-db
 spec:
+  serviceName: jupyterhub-db
   replicas: 1
   selector:
     app: jupyterhub
     deploymentconfig: jupyterhub-db
   strategy:
-    type: Recreate
+    type: RollingUpdate
   template:
     metadata:
       labels:
