@@ -6,7 +6,7 @@ resources:
   - secrets.yaml
   - service.yaml
   - service-accounts.yaml
-  - route.yaml
+  - ingress.yaml
   - default-role-binding.yaml
 
 commonLabels:
