@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app: jupyterhub
+  name: jupyterhub-cfg
+data:
+  jupyterhub_config.py: >-
+    import os
+
+    c.KubeSpawner.pvc_name_template = '%s-nb-{username}-pvc' % os.environ['JUPYTERHUB_SERVICE_NAME']
+
+    c.KubeSpawner.volumes = [
+      dict(name='data',persistentVolumeClaim=dict(claimName=c.KubeSpawner.pvc_name_template)),
+      {
+        'name': 'foo-volume', 
+        'secret': {'secretName': 'app-aflow-redis'}
+      }
+    ]
+
+    c.KubeSpawner.volume_mounts = [
+      dict(name='data',mountPath=DEFAULT_MOUNT_PATH),
+      {
+        'name': 'foo-volume', 
+        'mountPath': '/tmp/data'
+      }
+    ]
+
+    c.KubeSpawner.user_storage_class = os.environ.get("JUPYTERHUB_STORAGE_CLASS",c.KubeSpawner.user_storage_class)
+
+
+    c.KubeSpawner.lifecycle_hooks = {
+        "postStart": {
+            "exec": {
+                "command": ["/bin/sh", "-c", "touch /tmp/a.out"]
+            }
+        }
+    }
+
+    import sys, subprocess
+    subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'oauthenticator'])
+
+    os.environ['OAUTH2_TOKEN_URL']= 'https://$(KEYCLOAK_URL)/auth/realms/master/protocol/openid-connect/token'
+
+    os.environ['OAUTH2_AUTHORIZE_URL']='https://$(KEYCLOAK_URL)/auth/realms/master/protocol/openid-connect/auth' 
+
+
+    c.JupyterHub.authenticator_class = 'oauthenticator.generic.GenericOAuthenticator'
+
+    c.OAuthenticator.client_id = 'jhub'
+
+    c.OAuthenticator.client_secret = '$(CLIENT_SECRET)'
+
+    c.GenericOAuthenticator.token_url = 'https://$(KEYCLOAK_URL)/auth/realms/master/protocol/openid-connect/token'
+
+    c.GenericOAuthenticator.userdata_url = 'https://$(KEYCLOAK_URL)/auth/realms/master/protocol/openid-connect/userinfo'
+
+    c.GenericOAuthenticator.userdata_method = 'GET'
+
+    c.GenericOAuthenticator.username_key = "preferred_username"
+
+    c.GenericOAuthenticator.userdata_params = {'state': 'state'} 
+
+
+  jupyterhub_admins: "admin"
+  gpu_mode: ""
+  singleuser_pvc_size: 10Gi

@@ -1,0 +1,749 @@
+
+---
+# Source: airflow/templates/scheduler/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-aflow-airflow-scheduler
+  labels:
+    app.kubernetes.io/name: airflow
+    helm.sh/chart: airflow-10.3.2
+    app.kubernetes.io/instance: app-aflow
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: scheduler
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: airflow
+      app.kubernetes.io/instance: app-aflow
+      app.kubernetes.io/component: scheduler
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: airflow
+        helm.sh/chart: airflow-10.3.2
+        app.kubernetes.io/instance: app-aflow
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/component: scheduler
+      annotations:
+        checksum/configmap: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
+    spec:
+
+      priorityClassName: ""
+      # securityContext:
+      #   fsGroup: 1001
+      serviceAccountName: default
+      affinity:
+        podAffinity:
+
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: airflow
+                    app.kubernetes.io/instance: app-aflow
+                    app.kubernetes.io/component: scheduler
+                namespaces:
+                  - "ml-workshop"
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+        nodeAffinity:
+
+
+      containers:
+        - resources: {}
+          terminationMessagePath: /dev/termination-log
+          name: git-sync
+          command:
+            - /git-sync
+          env:
+            - name: GIT_SYNC_REPO
+              value: 'https://github.com/airflow-dags/dags/'
+            - name: GIT_SYNC_DEST
+              value: gitdags
+            - name: GIT_SYNC_BRANCH
+              value: main
+            - name: GIT_SYNC_ROOT
+              value: /tmp/git
+            - name: GIT_SYNC_ONE_TIME
+              value: 'false'
+            - name: GIT_SYNC_REV
+            - name: HOME
+              value: /tmp
+          ports:
+            - name: gitsync
+              containerPort: 2020
+              protocol: TCP
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: dags-data
+              mountPath: /tmp/git
+          terminationMessagePolicy: File
+          image: 'k8s.gcr.io/git-sync/git-sync:v3.2.2'
+        - name: airflow-scheduler
+          image: quay.io/ml-aml-workshop/airflow-custom:2.0.0.scheduler
+          imagePullPolicy: "Always"
+          # securityContext:
+          #   runAsUser: 1001
+          env:
+            - name: AIRFLOW_FERNET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: app-aflow-airflow
+                  key: airflow-fernetKey
+            - name: AIRFLOW_LOAD_EXAMPLES
+              value: "no"
+            - name: AIRFLOW_DATABASE_NAME
+              value: "bitnami_airflow"
+            - name: AIRFLOW_DATABASE_USERNAME
+              value: "bn_airflow"
+            - name: AIRFLOW_DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-aflow-postgresql
+                  key: postgresql-password
+            - name: AIRFLOW_DATABASE_HOST
+              value: "app-aflow-postgresql"
+            - name: AIRFLOW_DATABASE_PORT_NUMBER
+              value: "5432"
+            - name: REDIS_HOST
+              value: "app-aflow-redis-master"
+            - name: REDIS_PORT_NUMBER
+              value: "6379"
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-aflow-redis
+                  key: redis-password
+            - name: AIRFLOW_EXECUTOR
+              value: CeleryExecutor
+            - name: AIRFLOW_WEBSERVER_HOST
+              value: app-aflow-airflow
+            - name: AIRFLOW_WEBSERVER_PORT_NUMBER
+              value: "8080"
+            - name: AIRFLOW__WEBSERVER__SECRET_KEY
+              value: "IKnowWhatYouDidLastYear"
+            - name: AIRFLOW_BASE_URL
+              value: http://127.0.0.1:8080
+            - name: AIRFLOW_LDAP_ENABLE
+              value: "no"
+            - name: AIRFLOW__WEBSERVER__SECRET_KEY
+              value: "IKnowWhatYouDidLastYear"
+          envFrom:
+          ports:
+            - name: task-logs
+              containerPort: 8793
+          volumeMounts:
+            - name: dags-data
+              mountPath: /opt/bitnami/airflow/dags
+          resources:
+            limits: {}
+            requests: {}
+      volumes:
+        - name: dags-data
+          emptyDir: { }
+
+---
+# Source: airflow/templates/web/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-aflow-airflow-web
+  labels:
+    app.kubernetes.io/name: airflow
+    helm.sh/chart: airflow-10.3.2
+    app.kubernetes.io/instance: app-aflow
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: web
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: airflow
+      app.kubernetes.io/instance: app-aflow
+      app.kubernetes.io/component: web
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: airflow
+        helm.sh/chart: airflow-10.3.2
+        app.kubernetes.io/instance: app-aflow
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/component: web
+      annotations:
+        checksum/configmap: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
+    spec:
+
+      priorityClassName: ""
+
+      affinity:
+        podAffinity:
+
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: airflow
+                    app.kubernetes.io/instance: app-aflow
+                    app.kubernetes.io/component: web
+                namespaces:
+                  - "ml-workshop"
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+        nodeAffinity:
+
+      serviceAccountName: airflow2-proxy
+      containers:
+        - resources: {}
+          terminationMessagePath: /dev/termination-log
+          name: git-sync
+          command:
+            - /git-sync
+          env:
+            - name: GIT_SYNC_REPO
+              value: 'https://github.com/airflow-dags/dags/'
+            - name: GIT_SYNC_DEST
+              value: gitdags
+            - name: GIT_SYNC_BRANCH
+              value: main
+            - name: GIT_SYNC_ROOT
+              value: /tmp/git
+            - name: GIT_SYNC_ONE_TIME
+              value: 'false'
+            - name: GIT_SYNC_REV
+            - name: HOME
+              value: /tmp
+          ports:
+            - name: gitsync
+              protocol: TCP
+              containerPort: 2020
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: dags-data
+              mountPath: /tmp/git
+          terminationMessagePolicy: File
+          image: 'k8s.gcr.io/git-sync/git-sync:v3.2.2'
+        - name: airflow-web
+          image: quay.io/ml-aml-workshop/airflow-custom:2.1.7.web.keycloak
+          imagePullPolicy: "Always"
+#          securityContext:
+#            runAsUser: 1001
+          env:
+            - name: AIRFLOW_FERNET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: app-aflow-airflow
+                  key: airflow-fernetKey
+            - name: AIRFLOW_LOAD_EXAMPLES
+              value: "no"
+            - name: AIRFLOW_DATABASE_NAME
+              value: "bitnami_airflow"
+            - name: AIRFLOW_DATABASE_USERNAME
+              value: "bn_airflow"
+            - name: AIRFLOW_DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-aflow-postgresql
+                  key: postgresql-password
+            - name: AIRFLOW_DATABASE_HOST
+              value: "app-aflow-postgresql"
+            - name: AIRFLOW_DATABASE_PORT_NUMBER
+              value: "5432"
+
+            - name: REDIS_HOST
+              value: "app-aflow-redis-master"
+            - name: REDIS_PORT_NUMBER
+              value: "6379"
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-aflow-redis
+                  key: redis-password
+
+            - name: AIRFLOW_EXECUTOR
+              value: CeleryExecutor
+            - name: AIRFLOW_WEBSERVER_HOST
+              value: "0.0.0.0"
+            - name: AIRFLOW_WEBSERVER_PORT_NUMBER
+              value: "8080"
+            - name: AIRFLOW__WEBSERVER__RBAC
+              value: "False"
+            - name: AIRFLOW__WEBSERVER__AUTHENTICATE
+              value: "False"
+            - name: AIRFLOW_USERNAME
+              value: user
+            - name: AIRFLOW_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-aflow-airflow
+                  key: airflow-password
+            - name: AIRFLOW_BASE_URL
+              value: http://127.0.0.1:8080
+            - name: AIRFLOW_LDAP_ENABLE
+              value: "no"
+            - name: AIRFLOW__WEBSERVER__SECRET_KEY
+              value: "IKnowWhatYouDidLastYear"
+            - name: AUTH_ROLE_PUBLIC
+              value: "Public"
+            - name: AIRFLOW__WEBSERVER__ENABLE_PROXY_FIX
+              value: "True"
+            - name: OAUTH_API_BASE_URL
+              value: "https://$(KEYCLOAK_URL)"
+            # - name: REQUESTS_CA_BUNDLE
+            #   value: "/opt/bitnami/python/lib/python3.8/site-packages/certifi/cacert.pem" 
+            - name: REQUESTS_CA_BUNDLE
+              value: "" 
+            - name: CURL_CA_BUNDLE
+              value: "" 
+            - name: AUTH_ROLE_PUBLIC 
+              value: "Public"
+            - name: AIRFLOW__WEBSERVER__ENABLE_PROXY_FIX
+              value: "True"
+            - name: OAUTH_TOKEN_URL
+              value: https://$(KEYCLOAK_URL)/auth/realms/master/protocol/openid-connect/token
+            - name: OAUTH_AUTHORIZE_URL
+              value: https://$(KEYCLOAK_URL)/auth/realms/master/protocol/openid-connect/authorize
+            - name: CLIENT_ID
+              value: 'aflow'
+            - name: CLIENT_SECRET
+              value: '$(CLIENT_SECRET)'  
+
+            - name: AIRFLOW_NAMESPACE
+              value: ml-workshop
+            - name: SA_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: airflow2-proxy
+                  key: token              
+
+            - name: SA_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: airflow2-proxy
+                  key: token
+
+          ports:
+            - name: http
+              containerPort: 8080
+          livenessProbe:
+            tcpSocket:
+              port: http
+
+            failureThreshold: 6
+            initialDelaySeconds: 180
+            periodSeconds: 20
+            successThreshold: 1
+            timeoutSeconds: 5
+          readinessProbe:
+            tcpSocket:
+              port: http
+
+            failureThreshold: 6
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          volumeMounts:
+            - name: dags-data
+              mountPath: /opt/bitnami/airflow/dags
+
+          resources:
+            limits: {}
+            requests: {}
+      volumes:
+        - name: dags-data
+          emptyDir: {}
+
+---
+# Source: airflow/charts/postgresql/templates/statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: app-aflow-postgresql
+  labels:
+    app.kubernetes.io/name: postgresql
+    helm.sh/chart: postgresql-10.9.4
+    app.kubernetes.io/instance: app-aflow
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: primary
+  annotations:
+  namespace: ml-workshop
+spec:
+  serviceName: app-aflow-postgresql-headless
+  replicas: 1
+  updateStrategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: postgresql
+      app.kubernetes.io/instance: app-aflow
+      role: primary
+  template:
+    metadata:
+      name: app-aflow-postgresql
+      labels:
+        app.kubernetes.io/name: postgresql
+        helm.sh/chart: postgresql-10.9.4
+        app.kubernetes.io/instance: app-aflow
+        app.kubernetes.io/managed-by: Helm
+        role: primary
+        app.kubernetes.io/component: primary
+    spec:
+      affinity:
+        podAffinity:
+
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: postgresql
+                    app.kubernetes.io/instance: app-aflow
+                    app.kubernetes.io/component: primary
+                namespaces:
+                  - "ml-workshop"
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+        nodeAffinity:
+
+      securityContext:
+        fsGroup: 1000630000
+      automountServiceAccountToken: false
+      containers:
+        - name: app-aflow-postgresql
+          image: quay.io/internaldatahub/postgresql-96-centos7:9.6
+          imagePullPolicy: "Always"
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          env:
+
+            - name: POSTGRESQL_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-aflow-postgresql
+                  key: postgresql-postgres-password
+
+            - name: POSTGRESQL_USER
+              value: "bn_airflow"
+
+            - name: POSTGRESQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-aflow-postgresql
+                  key: postgresql-password
+            - name: POSTGRESQL_DATABASE
+              value: "bitnami_airflow"
+
+          ports:
+            - name: tcp-postgresql
+              containerPort: 5432
+          livenessProbe:
+            tcpSocket:
+              port: 5432
+
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 6
+          readinessProbe:
+            tcpSocket:
+              port: 5432
+
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 6
+          volumeMounts:
+            - name: aflow-data
+              mountPath: /var/lib/pgsql/data
+  volumeClaimTemplates:
+    - metadata:
+        name: aflow-data
+      spec:
+        accessModes:
+          - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: "8Gi"
+---
+# Source: airflow/charts/redis/templates/master/statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: app-aflow-redis-master
+  namespace: "ml-workshop"
+  labels:
+    app.kubernetes.io/name: redis
+    helm.sh/chart: redis-14.8.11
+    app.kubernetes.io/instance: app-aflow
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: master
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: redis
+      app.kubernetes.io/instance: app-aflow
+      app.kubernetes.io/component: master
+  serviceName: app-aflow-redis-headless
+  updateStrategy:
+    rollingUpdate: {}
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: redis
+        helm.sh/chart: redis-14.8.11
+        app.kubernetes.io/instance: app-aflow
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/component: master
+      annotations:
+        checksum/configmap: 477b9ea763dc6dfa714452f6a707a13d3b4a48d9c512e594d44a5233db098999
+        checksum/health: 9463811d25909dca6b3c85715619dc375de313711438368cd8a7967fd8248221
+        checksum/scripts: 0b4fee4f0d3a3a781a82225288a8e70e92a1a08d2e396d21e84188a6b1906cc0
+        checksum/secret: accf045d76eda92532bfdcc8e5ceaf21dda9888d6ba641c0d8bfb79cb11ebb6a
+    spec:
+
+      serviceAccountName: app-aflow-redis
+      affinity:
+        podAffinity:
+
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: redis
+                    app.kubernetes.io/instance: app-aflow
+                    app.kubernetes.io/component: master
+                namespaces:
+                  - "ml-workshop"
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+        nodeAffinity:
+
+      terminationGracePeriodSeconds: 30
+      containers:
+        - name: redis
+          image: registry.redhat.io/rhel8/redis-6:1-18
+          imagePullPolicy: "Always"
+          env:
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-aflow-redis
+                  key: redis-password
+          ports:
+            - name: redis
+              containerPort: 6379
+          livenessProbe:
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            # One second longer than command timeout should prevent generation of zombie processes.
+            timeoutSeconds: 6
+            successThreshold: 1
+            failureThreshold: 5
+            tcpSocket: 
+              port: 6379
+          readinessProbe:
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            timeoutSeconds: 2
+            successThreshold: 1
+            failureThreshold: 5
+            tcpSocket: 
+              port: 6379
+
+          resources:
+            limits: {}
+            requests: {}
+          volumeMounts:
+            - name: redis-data
+              # mountPath: /data
+              mountPath: /var/lib/redis/data
+              subPath:
+
+      volumes:
+  volumeClaimTemplates:
+    - metadata:
+        name: redis-data
+        labels:
+          app.kubernetes.io/name: redis
+          app.kubernetes.io/instance: app-aflow
+          app.kubernetes.io/component: master
+      spec:
+        accessModes:
+          - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: "8Gi"
+
+---
+# Source: airflow/templates/worker/statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: app-aflow-airflow-worker
+  labels:
+    app.kubernetes.io/name: airflow
+    helm.sh/chart: airflow-10.3.2
+    app.kubernetes.io/instance: app-aflow
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: worker
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: airflow
+      app.kubernetes.io/instance: app-aflow
+      app.kubernetes.io/component: worker
+  serviceName: app-aflow-airflow-worker-headless
+  replicas: 1
+  updateStrategy:
+    type: "RollingUpdate"
+  template:
+    metadata:
+      annotations:
+        checksum/configmap: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
+      labels:
+        app.kubernetes.io/name: airflow
+        helm.sh/chart: airflow-10.3.2
+        app.kubernetes.io/instance: app-aflow
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/component: worker
+    spec:
+
+      priorityClassName: ""
+      serviceAccountName: default
+      affinity:
+        podAffinity:
+
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: airflow
+                    app.kubernetes.io/instance: app-aflow
+                    app.kubernetes.io/component: worker
+                namespaces:
+                  - "ml-workshop"
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+        nodeAffinity:
+
+      initContainers:
+      containers:
+        - resources: {}
+          terminationMessagePath: /dev/termination-log
+          name: git-sync
+          command:
+            - /git-sync
+          env:
+            - name: GIT_SYNC_REPO
+              value: 'https://github.com/airflow-dags/dags/'
+            - name: GIT_SYNC_DEST
+              value: gitdags
+            - name: GIT_SYNC_BRANCH
+              value: main
+            - name: GIT_SYNC_ROOT
+              value: /tmp/git
+            - name: GIT_SYNC_ONE_TIME
+              value: 'false'
+            - name: GIT_SYNC_REV
+            - name: HOME
+              value: /tmp
+          ports:
+            - name: gitsync
+              protocol: TCP
+              containerPort: 2020
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: dags-data
+              mountPath: /tmp/git
+          terminationMessagePolicy: File
+          image: 'k8s.gcr.io/git-sync/git-sync:v3.2.2'
+        - name: airflow-worker
+          image: quay.io/ml-aml-workshop/airflow-custom:2.0.0.worker
+          imagePullPolicy: "Always"
+          # securityContext:
+          #   runAsUser: 1001
+          resources:
+            limits: {}
+            requests: {}
+          env:
+            - name: AIRFLOW_FERNET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: app-aflow-airflow
+                  key: airflow-fernetKey
+            - name: AIRFLOW_LOAD_EXAMPLES
+              value: "no"
+            - name: AIRFLOW_DATABASE_NAME
+              value: "bitnami_airflow"
+            - name: AIRFLOW_DATABASE_USERNAME
+              value: "bn_airflow"
+            - name: AIRFLOW_DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-aflow-postgresql
+                  key: postgresql-password
+            - name: AIRFLOW_DATABASE_HOST
+              value: "app-aflow-postgresql"
+            - name: AIRFLOW_DATABASE_PORT_NUMBER
+              value: "5432"
+
+            - name: REDIS_HOST
+              value: "app-aflow-redis-master"
+            - name: REDIS_PORT_NUMBER
+              value: "6379"
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-aflow-redis
+                  key: redis-password
+            - name: AIRFLOW_EXECUTOR
+              value: CeleryExecutor
+            - name: AIRFLOW_WEBSERVER_HOST
+              value: app-aflow-airflow
+            - name: AIRFLOW_WEBSERVER_PORT_NUMBER
+              value: "8080"
+            - name: AIRFLOW__WEBSERVER__SECRET_KEY
+              value: "IKnowWhatYouDidLastYear"
+
+          envFrom:
+          ports:
+            - name: worker
+              containerPort: 8793
+          livenessProbe:
+            tcpSocket:
+              port: worker
+
+            failureThreshold: 6
+            initialDelaySeconds: 180
+            periodSeconds: 20
+            successThreshold: 1
+            timeoutSeconds: 5
+          readinessProbe:
+            tcpSocket:
+              port: worker
+
+            failureThreshold: 6
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          volumeMounts:
+            - name: dags-data
+              mountPath: /opt/bitnami/airflow/dags
+
+      volumes:
+        - name: dags-data
+          emptyDir: { }
+

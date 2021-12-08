@@ -1,0 +1,111 @@
+apiVersion: authorization.openshift.io/v1
+kind: Role
+metadata:
+  labels:
+    app: jupyterhub
+  name: jupyterhub
+rules:
+- apiGroups:
+  - ''
+  - build.openshift.io
+  resources:
+  - builds
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ''
+  - image.openshift.io
+  resources:
+  - imagestreams
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ''
+  resources:
+  - configmaps
+  - secrets
+  - persistentvolumeclaims
+  - pods
+  - services
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - patch
+  - update
+- apiGroups:
+  - ''
+  resources:
+  - configmaps
+  - secrets
+  - events
+  - persistentvolumeclaims
+  - pods
+  - services
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ''
+  - template.openshift.io
+  resources:
+  - processedtemplates
+  - templateconfigs
+  - templateinstances
+  - templates
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - patch
+  - update
+- apiGroups:
+  - ''
+  - template.openshift.io
+  resources:
+  - processedtemplates
+  - templateconfigs
+  - templateinstances
+  - templates
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ''
+  - route.openshift.io
+  resources:
+  - routes
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - patch
+  - update
+- apiGroups:
+  - ''
+  - route.openshift.io
+  resources:
+  - routes
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - radanalytics.io
+  resources:
+  - sparkclusters
+  verbs:
+  - get
+  - list
+  - create
+  - patch
+  - update
+  - delete
+  - deletecollection
+  - watch

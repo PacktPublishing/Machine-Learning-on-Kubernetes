@@ -1,0 +1,21 @@
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  name: ml-workshop-elyra
+  labels:
+    opendatahub.io/notebook-image: 'true'
+  annotations:
+    opendatahub.io/notebook-image-name: MLWorkShop Notebook Image
+spec:
+  lookupPolicy:
+    local: false
+  tags:
+    - name: latest
+      annotations: null
+      from:
+        kind: DockerImage
+        name: 'quay.io/ml-aml-workshop/elyra:0.0.1'
+      generation: 1
+      importPolicy: {}
+      referencePolicy:
+        type: Local

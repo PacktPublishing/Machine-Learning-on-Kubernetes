@@ -1,0 +1,14 @@
+apiVersion: authorization.openshift.io/v1
+kind: RoleBinding
+metadata:
+  labels:
+    app: jupyterhub
+  name: jupyterhub
+roleRef:
+  apiGroup: authorization.openshift.io
+  kind: Role
+  name: jupyterhub
+  namespace: $(namespace)
+subjects:
+- kind: ServiceAccount
+  name: jupyterhub-hub

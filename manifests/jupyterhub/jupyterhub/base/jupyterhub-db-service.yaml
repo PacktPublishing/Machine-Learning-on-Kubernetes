@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: jupyterhub
+  name: jupyterhub-db
+spec:
+  ports:
+  - name: 5432-tcp
+    port: 5432
+    protocol: TCP
+    targetPort: 5432
+  selector:
+    app: jupyterhub
+    deploymentconfig: jupyterhub-db

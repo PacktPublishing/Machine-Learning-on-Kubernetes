@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: odh-jupyterhub-sizes
+  labels:
+    jupyterhub: singleuser-profiles
+data:
+  jupyterhub-singleuser-profiles.yaml: |
+      sizes:
+      - name: Small
+        resources:
+          requests:
+            memory: 1Gi
+            cpu: 1
+          limits:
+            memory: 2Gi
+            cpu: 2
+      - name: Medium
+        resources:
+          requests:
+            memory: 2Gi
+            cpu: 2
+          limits:
+            memory: 4Gi
+            cpu: 4
+      - name: Large
+        resources:
+          requests:
+            memory: 4Gi
+            cpu: 4
+          limits:
+            memory: 8Gi
+            cpu: 8

@@ -1,0 +1,42 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: airflow2-proxy
+  annotations:
+    serviceaccounts.openshift.io/oauth-redirectreference.primary: '{"kind":"OAuthRedirectReference","apiVersion":"v1","reference":{"kind":"Route","name":"ap-airflow2"}}'
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: airflow2-proxy
+  annotations:
+    kubernetes.io/service-account.name: airflow2-proxy
+type: kubernetes.io/service-account-token
+
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: ap-airflow2
+  labels:
+    app.kubernetes.io/instance: app-aflow
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: airflow
+    component.opendatahub.io/name: airflow2
+    helm.sh/chart: airflow-10.3.2
+    opendatahub.io/component: 'false'
+spec:
+  to:
+    kind: Service
+    name: app-aflow-airflow
+    weight: 100
+  port:
+    targetPort: http
+  wildcardPolicy: None
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: None
+
+

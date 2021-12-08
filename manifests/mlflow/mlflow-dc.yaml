@@ -1,0 +1,92 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mlflow
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mlflow
+  template:
+    metadata:
+      labels:
+        app: mlflow
+    spec:
+      serviceAccountName: mlflow-proxy
+      initContainers:
+        - name: waitkafka
+          image: 'registry.access.redhat.com/rhscl/postgresql-96-rhel7:latest'
+          command: ['sh', '-c', "until nslookup mlflow-db.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for mlflow db service; sleep 2; done"]
+      containers:
+        - name: oauth-proxy
+          image: 'quay.io/oauth2-proxy/oauth2-proxy:v7.2.0'
+          args:
+            - '--provider=keycloak-oidc'
+            - '--https-address='
+            - '--http-address=:5000'
+            - '--client-id=mlflow'
+            - '--client-secret=ad216993-cf3a-4742-ba17-b531d5c22046'
+            - '--upstream=http://localhost:5500'
+            - '--email-domain=*'
+            - '--cookie-secret=ad12ca-qw23asd55adcwbjeprtwe'            
+            - '--oidc-issuer-url=https://keycloak-ml-workshop.apps.dbs-ibg-lab.apac-1.rht-labs.com/auth/realms/master'
+            - '--allowed-role=mlflow:mlflowuser'
+            - --reverse-proxy=true
+            - --skip-provider-button=true            
+          ports:
+            - name: public
+              containerPort: 5000
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: IfNotPresent
+
+        - name: mlflow-deployment
+          image: quay.io/ml-aml-workshop/mlflow:0.0.2
+          imagePullPolicy: Always
+          args:
+            - mlflow
+            - server
+            - '--host=0.0.0.0'
+            - '--port=5500'
+            - '--backend-store-uri=postgresql://postgres:admin@mlflow-db:5432/postgres'
+            - '--default-artifact-root=s3://mlflow/'
+            - '--workers=2'
+          env:
+            - name: MLFLOW_S3_ENDPOINT_URL
+              value: http://minio-ml-workshop:9000/
+            - name: AWS_ACCESS_KEY_ID
+              value: "minio"
+            - name: AWS_SECRET_ACCESS_KEY
+              value: "minio123"
+            - name: AWS_BUCKET_NAME
+              value: "mlflow"
+          # - name: MLFLOW_S3_IGNORE_TLS
+          #   value: "true"
+          ports:
+            - name: http
+              containerPort: 5500
+              protocol: TCP
+          resources:
+            requests:
+              cpu: "500m"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mlflow
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5000
+      targetPort: 5000
+      name: http
+    - port: 5500
+      targetPort: 5500
+      name: http-mlflow  
+  selector:
+    app: mlflow
+

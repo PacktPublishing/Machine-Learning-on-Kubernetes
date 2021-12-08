@@ -1,0 +1,16 @@
+varReference:
+- path: roleRef/namespace
+  kind: RoleBinding
+- path: subjects/namespace
+  kind: ClusterRoleBinding
+  apiGroup: authorization.openshift.io
+- path: data
+  kind: ConfigMap
+- path: metadata/annotations/volume.beta.kubernetes.io\/storage-class
+  kind: PersistentVolumeClaim
+- path: spec/template/spec/containers/env/valueFrom/configMapKeyRef/name
+  kind: DeploymentConfig
+- path: spec/template/spec/containers/env/valueFrom/secretKeyRef/name
+  kind: DeploymentConfig
+- path: spec/template/spec/initContainers/env/valueFrom/secretKeyRef/name
+  kind: DeploymentConfig

@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app: jupyterhub
+  name: jupyterhub-default-groups-config
+data:
+  admin_groups: ""
+  allowed_groups: ""

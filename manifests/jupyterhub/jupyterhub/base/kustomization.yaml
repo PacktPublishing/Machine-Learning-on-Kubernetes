@@ -1,0 +1,68 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- jupyterhub-configmap.yaml
+- jupyterhub-secret.yaml
+- jupyterhub-db-pvc.yaml
+- jupyterhub-db-dc.yaml
+- jupyterhub-db-service.yaml
+- jupyterhub-dc.yaml
+- jupyterhub-service.yaml
+- jupyterhub-serviceaccount.yaml
+- jupyterhub-role.yaml
+- jupyterhub-rolebinding.yaml
+- jupyterhub-cluster-role.yaml
+- jupyterhub-cluster-rolebinding.yaml
+- jupyterhub-route.yaml
+- jupyterhub-singleuser-profiles-configmap.yaml
+- jupyterhub-singleuser-profiles-sizes-configmap.yaml
+- jupyterhub-spark-operator-configmap.yaml
+- jupyterhub-groups-configmap.yaml
+
+commonLabels:
+  opendatahub.io/component: "true"
+  component.opendatahub.io/name: jupyterhub
+
+configMapGenerator:
+- name: parameters
+  env: params.env
+generatorOptions:
+  disableNameSuffixHash: true
+vars:
+- name: namespace
+  objref:
+    kind: ConfigMap
+    name: jupyterhub-cfg
+    apiVersion: v1
+  fieldref:
+    fieldpath: metadata.namespace
+- name: storage_class
+  objref:
+    kind: ConfigMap
+    name: parameters
+    apiVersion: v1
+  fieldref:
+    fieldpath: data.storage_class
+- name: s3_endpoint_url
+  objref:
+    kind: ConfigMap
+    name: parameters
+    apiVersion: v1
+  fieldref:
+    fieldpath: data.s3_endpoint_url
+- name: jupyterhub_groups_config
+  objref:
+    kind: ConfigMap
+    name: parameters
+    apiVersion: v1
+  fieldref:
+    fieldpath: data.jupyterhub_groups_config
+- name: jupyterhub_secret
+  objref:
+    kind: ConfigMap
+    name: parameters
+    apiVersion: v1
+  fieldref:
+    fieldpath: data.jupyterhub_secret
+configurations:
+- params.yaml

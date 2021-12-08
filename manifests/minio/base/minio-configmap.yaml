@@ -1,0 +1,39 @@
+---
+apiVersion: v1
+data:
+  prometheus_config.config: |-
+    prometheus_config {
+      enable: true,
+      path: "/monitoring/metrics"
+    }
+kind: ConfigMap
+metadata:
+  name: promconfig
+  labels:
+    helm.sh/chart: s3-server-0.0.1
+    app.kubernetes.io/name: minio
+    app.kubernetes.io/instance: min
+    app.kubernetes.io/version: "0.0.1"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: s3-server/templates/minio.yaml
+apiVersion: v1
+data:
+  models.config: |-
+    model_config_list {
+      config {
+        name: 'test_model'
+        base_path: 's3://models/test_model'
+        model_platform: "tensorflow",
+        model_version_policy: {all: {}}
+      }
+    }
+kind: ConfigMap
+metadata:
+  name: modelconfig
+  labels:
+    helm.sh/chart: s3-server-0.0.1
+    app.kubernetes.io/name: minio
+    app.kubernetes.io/instance: min
+    app.kubernetes.io/version: "0.0.1"
+    app.kubernetes.io/managed-by: Helm

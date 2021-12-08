@@ -1,0 +1,24 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  labels:
+    app: jupyterhub
+  name: jupyterhub-cluster
+rules:
+  - verbs:
+      - get
+      - watch
+      - list
+    apiGroups:
+      - ''
+      - config.openshift.io
+    resources:
+      - clusterversions
+  - verbs:
+      - get
+      - list
+      - watch
+    apiGroups:
+      - ''
+    resources:
+      - nodes

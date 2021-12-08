@@ -1,0 +1,93 @@
+# Source: s3-server/templates/minio.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+#  namespace: ml-workshop
+  name: minio-ml-workshop
+  labels:
+    helm.sh/chart: s3-server-0.0.1
+    app.kubernetes.io/name: minio
+    app.kubernetes.io/instance: min
+    app.kubernetes.io/version: "0.0.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: minio
+      app.kubernetes.io/instance: min
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: s3-server-0.0.1
+        app.kubernetes.io/name: minio
+        app.kubernetes.io/instance: min
+        app.kubernetes.io/version: "0.0.1"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      containers:
+        - name: minio
+          livenessProbe:
+            httpGet:
+              path: /minio/health/live
+              port: 9000
+              scheme: HTTP
+            initialDelaySeconds: 10
+            timeoutSeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 10
+          readinessProbe:
+            httpGet:
+              path: /minio/health/ready
+              port: 9000
+              scheme: HTTP
+            initialDelaySeconds: 10
+            timeoutSeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 10
+
+          image: docker.io/minio/minio:latest
+          imagePullPolicy: IfNotPresent
+          resources: {}
+          args:
+            - server
+            - /storage
+#            - --config-dir=/config
+            - --console-address=:33933
+          env:
+            - name: MINIO_ACCESS_KEY
+              value: "minio"
+            - name: MINIO_SECRET_KEY
+              value: "minio123"
+            - name: MINIO_PROMETHEUS_AUTH_TYPE
+              value: "public"
+            - name: MINIO_TRACE
+              value: "true"
+            - name: MINIO_ROOT_USER
+              value: "minio"
+            - name: MINIO_ROOT_PASSWORD
+              value: "minio123"
+            # - name: MINIO_IDENTITY_OPENID_CONFIG_URL
+            #   value: http://$(KEYCLOAK_URL)/auth/realms/master/.well-known/openid-configuration
+            # - name: MINIO_IDENTITY_OPENID_CLIENT_ID
+            #   value: "minio"              
+            # - name: MINIO_IDENTITY_OPENID_CLIENT_SECRET
+            #   value: "$(CLIENT_SECRET)"              
+
+          ports:
+            - containerPort: 9000
+            - containerPort: 33933
+          volumeMounts:
+            - name: storage
+              mountPath: "/storage"
+#            - name: config
+#              mountPath: "/config"
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: minio-ml-workshop
+#        - name: config
+#          emptyDir: {}

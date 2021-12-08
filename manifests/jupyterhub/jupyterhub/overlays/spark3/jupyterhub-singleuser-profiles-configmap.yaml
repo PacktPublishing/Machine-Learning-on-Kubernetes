@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jupyter-singleuser-profiles
+data:
+  jupyterhub-singleuser-profiles.yaml: |
+      profiles:
+      - name: globals
+        env:
+          - name: S3_ENDPOINT_URL
+            value: $(s3_endpoint_url)
+          - name: HADOOP_HOME
+            value: /opt/spark/jars  
+
+        resources:
+          requests:
+            memory: 1Gi
+            cpu: 50m
+          limits:
+            memory: 2Gi
+            cpu: 1
+
+      - name: Spark Notebook
+        images:
+        - s2i-lab-elyra-spark:0.0.4
+        env:
+          - name: PYSPARK_SUBMIT_ARGS 
+            value: '--conf spark.cores.max=2 --conf spark.executor.instances=1 --conf spark.executor.memory=3g --conf spark.executor.cores=1 --conf spark.driver.memory=2G --packages org.apache.hadoop:hadoop-aws:3.2.0 pyspark-shell' 
+          - name: PYSPARK_DRIVER_PYTHON 
+            value: 'jupyter' 
+          - name: PYSPARK_DRIVER_PYTHON_OPTS 
+            value: 'notebook' 
+          - name: PYTHONPATH 
+            value: '$PYTHONPATH:/opt/app-root/lib/python3.8/site-packages/:/opt/app-root/lib/python3.8/site-packages/pyspark/python/:/opt/app-root/lib/python3.8/site-packages/pyspark/python/lib/py4j-0.10.9-src.zip'
+
+          
+        services:
+          spark:
+            resources:
+            - name: spark-cluster-template
+              path: notebookPodServiceTemplate
+            - name: spark-cluster-template
+              path: sparkClusterTemplate
+            configuration:
+              worker_nodes: '1'
+              master_nodes: '1'
+              master_memory_limit: '4Gi'
+              master_cpu_limit: '750m'
+              master_memory_request: '4Gi'
+              master_cpu_request: '100m'
+              worker_memory_limit: '4Gi'
+              worker_cpu_limit: '750m'
+              worker_memory_request: '4Gi'
+              worker_cpu_request: '250m'
+              spark_image: 'quay.io/ml-aml-workshop/spark3:ross'
+            return:
+              SPARK_CLUSTER: 'metadata.name'

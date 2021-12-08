@@ -1,0 +1,42 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: spark-cluster-template
+data:
+  notebookPodServiceTemplate: |
+    apiVersion: v1
+    kind: Service
+    metadata:
+      labels:
+      name: "jupyterhub-nb-{{ user }}"
+    spec:
+      clusterIP: None
+      selector:
+        jupyterhub.opendatahub.io/user: "{{ user }}"
+      sessionAffinity: None
+      type: ClusterIP
+    status:
+      loadBalancer: {}
+  sparkClusterTemplate: |
+    kind: SparkCluster
+    apiVersion: radanalytics.io/v1
+    metadata:
+      name: "spark-cluster-{{ user }}"
+    spec:
+      worker:
+        instances: "{{ worker_nodes }}"
+        memoryLimit: "{{ worker_memory_limit }}"
+        cpuLimit: "{{ worker_cpu_limit }}"
+        memoryRequest: "{{ worker_memory_request }}"
+        cpuRequest: "{{ worker_cpu_request }}"
+      master:
+        instances: "{{ master_nodes }}"
+        memoryLimit: "{{ master_memory_limit }}"
+        cpuLimit: "{{ master_cpu_limit }}"
+        memoryRequest: "{{ master_memory_request }}"
+        cpuRequest: "{{ master_cpu_request }}"
+      customImage: "{{ spark_image }}"
+      metrics: true
+      env:
+      - name: SPARK_METRICS_ON
+        value: prometheus

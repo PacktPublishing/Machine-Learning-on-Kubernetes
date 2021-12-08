@@ -1,0 +1,113 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mlflow-db
+  labels:
+    app: mlflow-db
+spec:
+  type: ClusterIP
+  ports:
+    - name: postgresql
+      port: 5432
+      targetPort: postgresql
+  selector:
+    app: mlflow-db
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mlflow-db
+  labels:
+    app: mlflow-db
+spec:
+  serviceName: mlflow-db
+  replicas: 1
+  updateStrategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: mlflow-db
+  template:
+    metadata:
+      name: mlflow-db-postgresql
+      labels:
+        app: mlflow-db
+    spec:
+      securityContext:
+        fsGroup: 1000630000
+
+      initContainers:
+      #   - name: init-chmod-data
+      #     image: docker.io/bitnami/minideb:latest
+      #     imagePullPolicy: "Always"
+      #     resources:
+      #       requests:
+      #         cpu: 250m
+      #         memory: 256Mi
+      #     command:
+      #       - sh
+      #       - -c
+      #       - |
+      #         chown -R 1001:1001 /bitnami
+      #         if [ -d /bitnami/postgresql/data ]; then
+      #           chmod  0700 /bitnami/postgresql/data;
+      #         fi
+
+
+      #     volumeMounts:
+      #       - name: mlflow-db-data
+      #         mountPath: /bitnami/postgresql
+      # #              subPath:
+      containers:
+        - name: mlflow-db-postgresql
+          image: quay.io/internaldatahub/postgresql-96-centos7:9.6
+          imagePullPolicy: "Always"
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          env:
+            - name: POSTGRESQL_ADMIN_PASSWORD
+              value: "admin"
+            - name: POSTGRESQL_USER
+              value: "postgres"
+            - name: POSTGRESQL_PASSWORD
+              value: "postgres"
+            - name: POSTGRESQL_DATABASE
+              value: "postgres"  
+          ports:
+            - name: postgresql
+              containerPort: 5432
+          livenessProbe:
+            tcpSocket:
+              port: 5432
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 6
+          readinessProbe:
+            tcpSocket:
+              port: 5432
+
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 6
+          volumeMounts:
+            - name: mlflow-db-data
+              mountPath: /var/lib/pgsql/data
+  #              subPath:
+  #      volumes:
+  volumeClaimTemplates:
+    - metadata:
+        name: mlflow-db-data
+      spec:
+        accessModes:
+          - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: "8Gi"

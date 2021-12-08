@@ -1,0 +1,149 @@
+---
+# Source: airflow/charts/postgresql/templates/svc-headless.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-aflow-postgresql-headless
+  labels:
+    app.kubernetes.io/name: postgresql
+    helm.sh/chart: postgresql-10.9.4
+    app.kubernetes.io/instance: app-aflow
+    app.kubernetes.io/managed-by: Helm
+    # Use this annotation in addition to the actual publishNotReadyAddresses
+    # field below because the annotation will stop being respected soon but the
+    # field is broken in some versions of Kubernetes:
+    # https://github.com/kubernetes/kubernetes/issues/58662
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+  namespace: ml-workshop
+spec:
+  type: ClusterIP
+  clusterIP: None
+  # We want all pods in the StatefulSet to have their addresses published for
+  # the sake of the other Postgresql pods even before they're ready, since they
+  # have to be able to talk to each other in order to become ready.
+  publishNotReadyAddresses: true
+  ports:
+    - name: tcp-postgresql
+      port: 5432
+      targetPort: tcp-postgresql
+  selector:
+    app.kubernetes.io/name: postgresql
+    app.kubernetes.io/instance: app-aflow
+---
+# Source: airflow/charts/postgresql/templates/svc.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-aflow-postgresql
+  labels:
+    app.kubernetes.io/name: postgresql
+    helm.sh/chart: postgresql-10.9.4
+    app.kubernetes.io/instance: app-aflow
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+  namespace: ml-workshop
+spec:
+  type: ClusterIP
+  ports:
+    - name: tcp-postgresql
+      port: 5432
+      targetPort: tcp-postgresql
+  selector:
+    app.kubernetes.io/name: postgresql
+    app.kubernetes.io/instance: app-aflow
+    role: primary
+---
+# Source: airflow/charts/redis/templates/headless-svc.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-aflow-redis-headless
+  namespace: "ml-workshop"
+  labels:
+    app.kubernetes.io/name: redis
+    helm.sh/chart: redis-14.8.11
+    app.kubernetes.io/instance: app-aflow
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+    - name: tcp-redis
+      port: 6379
+      targetPort: redis
+  selector:
+    app.kubernetes.io/name: redis
+    app.kubernetes.io/instance: app-aflow
+---
+# Source: airflow/charts/redis/templates/master/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-aflow-redis-master
+  namespace: "ml-workshop"
+  labels:
+    app.kubernetes.io/name: redis
+    helm.sh/chart: redis-14.8.11
+    app.kubernetes.io/instance: app-aflow
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: master
+spec:
+  type: ClusterIP
+
+  ports:
+    - name: tcp-redis
+      port: 6379
+      targetPort: redis
+      nodePort: null
+  selector:
+    app.kubernetes.io/name: redis
+    app.kubernetes.io/instance: app-aflow
+    app.kubernetes.io/component: master
+---
+# Source: airflow/templates/web/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-aflow-airflow
+  labels:
+    app.kubernetes.io/name: airflow
+    helm.sh/chart: airflow-10.3.2
+    app.kubernetes.io/instance: app-aflow
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+    # - name: internal
+    #   port: 8888
+    #   targetPort: 8888
+
+  selector:
+    app.kubernetes.io/name: airflow
+    app.kubernetes.io/instance: app-aflow
+    app.kubernetes.io/component: web
+---
+# Source: airflow/templates/worker/service-headless.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-aflow-airflow-worker-headless
+  labels:
+    app.kubernetes.io/name: airflow
+    helm.sh/chart: airflow-10.3.2
+    app.kubernetes.io/instance: app-aflow
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+    - name: worker
+      port: 8793
+      targetPort: worker
+  selector:
+    app.kubernetes.io/name: airflow
+    app.kubernetes.io/instance: app-aflow
+    app.kubernetes.io/component: worker

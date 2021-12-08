@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: jupyterhub
+  name: jupyterhub
+spec:
+  ports:
+  - name: 8080-tcp
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  - name: 8081-tcp
+    port: 8081
+    protocol: TCP
+    targetPort: 8081
+  selector:
+    app: jupyterhub
+    deploymentconfig: jupyterhub

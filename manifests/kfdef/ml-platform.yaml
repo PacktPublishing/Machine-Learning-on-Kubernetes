@@ -1,0 +1,79 @@
+apiVersion: kfdef.apps.kubeflow.org/v1
+kind: KfDef
+metadata:
+  name: opendatahub-ml-workshop
+#  namespace: opendatahub
+spec:
+  applications:
+    - kustomizeConfig:
+        repoRef:
+          name: manifests
+          path: manifests/odh-common
+      name: odh-common
+    - kustomizeConfig:
+        repoRef:
+          name: manifests
+          path: radanalyticsio/spark/cluster
+      name: radanalyticsio-spark-cluster
+    - kustomizeConfig:
+        overlays:
+          - mlops
+          - spark3
+
+        parameters:
+          - name: s3_endpoint_url
+            value: "minio-ml-workshop.ml-workshop:9000"
+          - name: KEYCLOAK_URL  
+            value: https://keycloak.192.168.61.72.nip.io
+          - name: CLIENT_SECRET
+            value: '30fc8258-459b-47d8-b81e-16aabe31ce4f'  
+
+        repoRef:
+          name: manifests
+          path: manifests/jupyterhub/jupyterhub
+      name: jupyterhub
+    - kustomizeConfig:
+        overlays:
+        repoRef:
+          name: manifests
+          path: manifests/jupyterhub-images
+      name: notebook-images
+    - kustomizeConfig:
+        parameters:
+          - name: KEYCLOAK_URL  
+            value: https://keycloak.192.168.61.72.nip.io
+          - name: CLIENT_SECRET
+            value: 'efbb6591-86d0-4270-a544-f47689460a85'  
+
+        repoRef:
+          name: manifests
+          path: manifests/airflow2
+      name: airflow2
+
+    - kustomizeConfig:
+        parameters:
+          - name: s3_endpoint_url
+            value: "minio-ml-workshop.ml-workshop:9000"
+        repoRef:
+          name: manifests
+          path: manifests/minio
+      name: minio
+    # - kustomizeConfig:
+    #     repoRef:
+    #       name: manifests
+    #       path: ml-workshop-mlflow
+    #   name: ml-workshop-mlflow
+    # - kustomizeConfig:
+    #     repoRef:
+    #       name: manifests
+    #       path: manifests/odhseldon/cluster
+    #   name: odhseldon
+
+
+  repos:
+    - name: kf-manifests
+      uri: https://github.com/kubeflow/manifests/archive/v1.2-branch.tar.gz
+    - name: manifests
+      uri: https://github.com/PacktPublishing/Machine-Learning-on-Kubernetes/tarball/master
+  version: master
+

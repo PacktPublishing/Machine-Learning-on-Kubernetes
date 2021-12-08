@@ -1,0 +1,12 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: radanalytics-spark
+  namespace: opendatahub
+spec:
+  channel: alpha
+  installPlanApproval: Automatic
+  name: radanalytics-spark
+  source: community-operators
+  sourceNamespace: openshift-marketplace
+  startingCSV: sparkoperator.v1.1.0

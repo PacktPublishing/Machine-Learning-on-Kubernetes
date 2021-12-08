@@ -1,0 +1,11 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  labels:
+    app: jupyterhub
+  name: jupyterhub-db
+spec:
+  template:
+    spec:
+      securityContext:
+        fsGroup: 1000630000

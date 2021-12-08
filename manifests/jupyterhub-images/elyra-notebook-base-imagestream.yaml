@@ -1,0 +1,22 @@
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  labels:
+    opendatahub.io/notebook-image: "true"
+  annotations:
+    opendatahub.io/notebook-image-url: "https://github.com/thoth-station/s2i-lab-elyra"
+    opendatahub.io/notebook-image-name: "Base Elyra Notebook Image"
+    opendatahub.io/notebook-image-desc: "Jupyter notebook image with Elyra-AI installed - OOB"
+  name: s2i-lab-elyra
+spec:
+  lookupPolicy:
+    local: false
+  tags:
+  - annotations:
+      openshift.io/imported-from: quay.io/thoth-station/s2i-lab-elyra
+    from:
+      kind: DockerImage
+      name: quay.io/thoth-station/s2i-lab-elyra:v0.0.13
+    name: "v0.0.13"
+    referencePolicy:
+      type: Source
