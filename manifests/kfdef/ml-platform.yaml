@@ -13,7 +13,7 @@ spec:
     - kustomizeConfig:
         repoRef:
           name: manifests
-          path: radanalyticsio/spark/cluster
+          path: manifests/radanalyticsio/spark/cluster
       name: radanalyticsio-spark-cluster
     - kustomizeConfig:
         overlays:

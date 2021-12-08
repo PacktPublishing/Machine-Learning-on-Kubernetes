@@ -42,10 +42,10 @@ metadata:
 spec:
   tls:
     - hosts:
-      - MINIO_HOST
+      - $(MINIO_HOST)
 
   rules:
-  - host: MINIO_HOST
+  - host: $(MINIO_HOST)
     http:
       paths:
       - backend:

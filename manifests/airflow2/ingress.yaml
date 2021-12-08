@@ -32,10 +32,10 @@ metadata:
 spec:
   tls:
     - hosts:
-      - AIRFLOW_HOST
+      - $(AIRFLOW_HOST)
 
   rules:
-  - host: AIRFLOW_HOST
+  - host: $(AIRFLOW_HOST)
     http:
       paths:
       - backend:
