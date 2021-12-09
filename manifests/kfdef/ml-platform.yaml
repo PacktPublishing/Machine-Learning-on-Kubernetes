@@ -34,12 +34,12 @@ spec:
           name: manifests
           path: manifests/jupyterhub/jupyterhub
       name: jupyterhub
-    - kustomizeConfig:
-        overlays:
-        repoRef:
-          name: manifests
-          path: manifests/jupyterhub-images
-      name: notebook-images
+    # - kustomizeConfig:
+    #     overlays:
+    #     repoRef:
+    #       name: manifests
+    #       path: manifests/jupyterhub-images
+    #   name: notebook-images
     - kustomizeConfig:
         parameters:
           - name: KEYCLOAK_URL  
