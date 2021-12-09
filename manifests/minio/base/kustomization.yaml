@@ -11,3 +11,20 @@ resources:
 commonLabels:
   opendatahub.io/component: "false"
   component.opendatahub.io/name: "minio"
+
+
+configMapGenerator:
+- name: parameters
+  env: params.env
+generatorOptions:
+  disableNameSuffixHash: true
+vars:
+- name: MINIO_HOST
+  objref:
+    kind: ConfigMap
+    name: parameters
+    apiVersion: v1
+  fieldref:
+    fieldpath: data.MINIO_HOST
+configurations:
+- params.yaml
