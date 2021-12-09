@@ -14,7 +14,7 @@ commonLabels:
 
 
 configMapGenerator:
-- name: minio_parameters
+- name: minio-parameters
   env: params.env
 generatorOptions:
   disableNameSuffixHash: true
@@ -22,7 +22,7 @@ vars:
 - name: MINIO_HOST
   objref:
     kind: ConfigMap
-    name: minio_parameters
+    name: minio-parameters
     apiVersion: v1
   fieldref:
     fieldpath: data.MINIO_HOST
