@@ -4,7 +4,7 @@ metadata:
   name: imagestreams.image.openshift.io
 spec:
   group: image.openshift.io
-  scope: Cluster
+  scope: Namespaced
   names:
     kind: ImageStream
     plural: imagestreams

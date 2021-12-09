@@ -4,7 +4,7 @@ metadata:
   name: route.route.openshift.io
 spec:
   group: route.openshift.io
-  scope: Cluster
+  scope: Namespaced
   names:
     kind: Route
     plural: route
