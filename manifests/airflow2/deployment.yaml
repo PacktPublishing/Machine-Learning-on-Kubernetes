@@ -532,7 +532,7 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
         - name: redis
-          image: registry.redhat.io/rhel8/redis-6:1-18
+          image: quay.io/ml-aml-workshop/redis-6:1-25
           imagePullPolicy: "Always"
           env:
             - name: REDIS_PASSWORD
