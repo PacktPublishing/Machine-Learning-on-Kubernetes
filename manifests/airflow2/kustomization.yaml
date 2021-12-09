@@ -15,3 +15,31 @@ commonLabels:
 
 
 
+configMapGenerator:
+- name: parameters
+  env: params.env
+generatorOptions:
+  disableNameSuffixHash: true
+vars:
+
+- name: KEYCLOAK_URL
+  objref:
+    kind: ConfigMap
+    name: parameters
+    apiVersion: v1
+  fieldref:
+    fieldpath: data.KEYCLOAK_URL
+- name: CLIENT_SECRET
+  objref:
+    kind: ConfigMap
+    name: parameters
+    apiVersion: v1
+  fieldref:
+    fieldpath: data.CLIENT_SECRET
+- name: AIRFLOW_HOST
+  objref:
+    kind: ConfigMap
+    name: parameters
+    apiVersion: v1
+  fieldref:
+    fieldpath: data.AIRFLOW_HOST
