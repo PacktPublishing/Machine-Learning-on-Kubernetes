@@ -21,7 +21,6 @@ configMapGenerator:
 generatorOptions:
   disableNameSuffixHash: true
 vars:
-
 - name: KEYCLOAK_URL
   objref:
     kind: ConfigMap
@@ -43,5 +42,3 @@ vars:
     apiVersion: v1
   fieldref:
     fieldpath: data.AIRFLOW_HOST
-configurations:
-- params.yaml

@@ -1,5 +1,0 @@
-varReference:
-- path: spec/tls/hosts[0]
-  kind: Ingress
-- path: spec/rules[0]/host
-  kind: Ingress
