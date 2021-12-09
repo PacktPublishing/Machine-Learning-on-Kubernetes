@@ -38,6 +38,7 @@ data:
     }
 
     import sys, subprocess
+    
     subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'oauthenticator'])
 
     os.environ['OAUTH2_TOKEN_URL']= 'https://$(KEYCLOAK_URL)/auth/realms/master/protocol/openid-connect/token'
