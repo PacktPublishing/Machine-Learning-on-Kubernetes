@@ -8,8 +8,6 @@ resources:
   - elyra-notebook-base-imagestream.yaml
   - elyra-notebook-spark3-imagestream.yaml
 
-crds:
-  - crd/image-stream.json
 
 commonLabels:
   opendatahub.io/component: "false"

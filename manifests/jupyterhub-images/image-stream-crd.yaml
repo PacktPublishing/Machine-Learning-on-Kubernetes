@@ -1,0 +1,23 @@
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  annotations:
+  name: apicast-gateway
+  namespace: openshift
+  labels:
+    samples.operator.openshift.io/managed: 'true'
+spec:
+  lookupPolicy:
+    local: false
+  tags:
+    - name: 2.1.0.GA
+      annotations:
+      from:
+        kind: DockerImage
+        name: 'registry.redhat.io/3scale-amp21/apicast-gateway:1.4-2'
+      generation: 2
+      importPolicy: {}
+      referencePolicy:
+        type: Local
+
+        
