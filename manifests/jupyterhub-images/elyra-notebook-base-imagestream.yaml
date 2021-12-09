@@ -20,3 +20,7 @@ spec:
     name: "v0.0.13"
     referencePolicy:
       type: Source
+status: 
+  tags:
+    - tag: latest
+      dockerImageReference: quay.io/thoth-station/s2i-lab-elyra:v0.0.13

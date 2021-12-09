@@ -18,3 +18,7 @@ spec:
       importPolicy: {}
       referencePolicy:
         type: Local
+status: 
+  tags:
+    - tag: latest
+      dockerImageReference: quay.io/ml-aml-workshop/elyra:fmv5

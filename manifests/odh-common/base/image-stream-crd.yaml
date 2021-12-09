@@ -53,7 +53,17 @@ spec:
                         properties:
                           type:
                             type: string
-
-                          
+            status:
+              type: object
+              properties:
+                tags:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      tag:
+                        type: string
+                      dockerImageReference:   
+                        type: string                          
 
 

@@ -2,7 +2,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - elyra-imagestream.yaml
-  - elyra-imagestream-seldon-alibi.yaml
   - elyra-imagestream-fm-experiments.yaml
   - elyra-notebook-base-imagestream.yaml
   - elyra-notebook-spark3-imagestream.yaml
