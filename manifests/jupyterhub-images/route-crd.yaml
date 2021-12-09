@@ -1,0 +1,50 @@
+kind: CustomResourceDefinition
+apiVersion: apiextensions.k8s.io/v1
+metadata: 
+  name: routes.openshift.io
+spec:
+  group: openshift.io
+  scope: Cluster
+  names:
+    kind: Route
+    plural: routes
+    singular: route  
+  versions:
+    - name: v1
+      served: true
+      storage: true      
+
+      schema:
+        openAPIV3Schema: 
+          description: >-
+            Defining the CRD so to use the as-is jhhub from ODH
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                host:
+                  type: string
+                to:
+                  type: object
+                  properties:
+                    kind:
+                      type: string
+                    name:
+                      type: string
+                    weight:
+                      type: integer
+                port:
+                  type: object
+                  properties:
+                    targetPort:
+                      type: string
+                tls:
+                  type: object
+                  properties:
+                    termination:
+                      type: string
+                    insecureEdgeTerminationPolicy:
+                      type: string
+                wildcardPolicy:
+                  type: string

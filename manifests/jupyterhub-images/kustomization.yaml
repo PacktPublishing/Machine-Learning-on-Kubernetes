@@ -1,7 +1,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - image-stream.json
+  - image-stream-crd.yaml
+  - route-crd.yaml
   - elyra-imagestream.yaml
   - elyra-imagestream-seldon-alibi.yaml
   - elyra-imagestream-fm-experiments.yaml

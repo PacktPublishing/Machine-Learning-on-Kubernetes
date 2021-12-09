@@ -1,23 +1,59 @@
-kind: ImageStream
-apiVersion: image.openshift.io/v1
-metadata:
-  annotations:
-  name: apicast-gateway
-  namespace: openshift
-  labels:
-    samples.operator.openshift.io/managed: 'true'
+kind: CustomResourceDefinition
+apiVersion: apiextensions.k8s.io/v1
+metadata: 
+  name: imagestreams.image.openshift.io
 spec:
-  lookupPolicy:
-    local: false
-  tags:
-    - name: 2.1.0.GA
-      annotations:
-      from:
-        kind: DockerImage
-        name: 'registry.redhat.io/3scale-amp21/apicast-gateway:1.4-2'
-      generation: 2
-      importPolicy: {}
-      referencePolicy:
-        type: Local
+  group: image.openshift.io
+  scope: Cluster
+  names:
+    kind: ImageStream
+    plural: imagestreams
+    singular: imagestream  
+  versions:
+    - name: v1
+      served: true
+      storage: true      
 
-        
+      schema:
+        openAPIV3Schema: 
+          description: >-
+            ImageStream stores a mapping of tags to images, metadata overrides that are
+            applied when images are tagged in a stream, and an optional reference to a
+            container image repository on a registry.
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                lookupPolicy:
+                  type: object
+                  properties:
+                    local:
+                      type: boolean
+                tags:
+                  type: array
+                  items:
+                    type: object
+                    properties: 
+                      name:
+                        type: string
+                      annotations:
+                        type: object
+                      from:
+                        type: object
+                        properties:
+                          kind:
+                            type: string
+                          name:
+                            type: string
+                      importPolicy:
+                        type: object
+                      referencePolicy:
+                        type: object
+                        properties:
+                          type:
+                            type: string
+
+                          
+
+
