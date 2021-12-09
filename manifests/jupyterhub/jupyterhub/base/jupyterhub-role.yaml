@@ -81,6 +81,7 @@ rules:
   - route.openshift.io
   resources:
   - routes
+  - route
   verbs:
   - create
   - delete
@@ -92,6 +93,7 @@ rules:
   - route.openshift.io
   resources:
   - routes
+  - route
   verbs:
   - get
   - list
