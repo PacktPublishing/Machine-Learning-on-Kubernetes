@@ -33,6 +33,8 @@ spec:
     spec:
       containers:
       - env:
+        - name: OAUTH_TLS_VERIFY
+          value: "0"
         - name: JUPYTERHUB_SERVICE_NAME
           value: jupyterhub
         - name: JUPYTERHUB_DATABASE_PASSWORD

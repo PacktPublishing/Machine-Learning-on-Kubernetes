@@ -43,3 +43,5 @@ vars:
     apiVersion: v1
   fieldref:
     fieldpath: data.AIRFLOW_HOST
+configurations:
+- params.yaml
