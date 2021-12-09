@@ -28,7 +28,7 @@ spec:
           - name: CLIENT_SECRET
             value: '30fc8258-459b-47d8-b81e-16aabe31ce4f'  
           - name: JUPYTERHUB_HOST  
-            value: https://jupyterhub.192.168.61.72.nip.io
+            value: jupyterhub.192.168.61.72.nip.io
 
         repoRef:
           name: manifests
@@ -47,7 +47,7 @@ spec:
           - name: CLIENT_SECRET
             value: 'efbb6591-86d0-4270-a544-f47689460a85'
           - name: AIRFLOW_HOST  
-            value: https://airflow.192.168.61.72.nip.io
+            value: airflow.192.168.61.72.nip.io
 
 
         repoRef:
@@ -60,7 +60,7 @@ spec:
           - name: s3_endpoint_url
             value: "minio-ml-workshop.ml-workshop:9000"
           - name: MINIO_HOST  
-            value: https://minio.192.168.61.72.nip.io
+            value: minio.192.168.61.72.nip.io
 
         repoRef:
           name: manifests
