@@ -26,5 +26,3 @@ vars:
     apiVersion: v1
   fieldref:
     fieldpath: data.MINIO_HOST
-configurations:
-- params.yaml
