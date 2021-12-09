@@ -319,12 +319,6 @@ spec:
                   name: airflow2-proxy
                   key: token              
 
-            - name: SA_SECRET_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: airflow2-proxy
-                  key: token
-
           ports:
             - name: http
               containerPort: 8080
