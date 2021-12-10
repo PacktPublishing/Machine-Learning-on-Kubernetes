@@ -66,16 +66,20 @@ spec:
           name: manifests
           path: manifests/minio
       name: minio
-    # - kustomizeConfig:
-    #     repoRef:
-    #       name: manifests
-    #       path: ml-workshop-mlflow
-    #   name: ml-workshop-mlflow
-    # - kustomizeConfig:
-    #     repoRef:
-    #       name: manifests
-    #       path: manifests/odhseldon/cluster
-    #   name: odhseldon
+    - kustomizeConfig:
+        parameters:
+          - name: MLFLOW_HOST  
+            value: minio.192.168.61.72.nip.io
+
+        repoRef:
+          name: manifests
+          path: manifests/mlflow
+      name: ml-workshop-mlflow
+    - kustomizeConfig:
+        repoRef:
+          name: manifests
+          path: manifests/odhseldon/cluster
+      name: odhseldon
 
 
   repos:
