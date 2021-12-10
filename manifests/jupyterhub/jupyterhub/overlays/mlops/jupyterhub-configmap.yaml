@@ -72,7 +72,71 @@ data:
 
     # https://github.com/jupyterhub/oauthenticator/blob/master/oauthenticator/oauth2.py
 
+    # https://github.com/opendatahub-io/jupyterhub-odh/blob/master/.jupyter/jupyterhub_config.py
 
+    # https://github.com/opendatahub-io/jupyterhub-singleuser-profiles/blob/5167618d33b708de1c232457c34d59a0eef8118a/jupyterhub_singleuser_profiles/images.py#L45
+
+
+    from jupyterhub_singleuser_profiles.openshift import OpenShift
+
+    def setup_environment2(spawner):
+
+      # print(spawner.image)
+
+      ## this works
+      ## spawner.image = "quay.io/ml-aml-workshop" + spawner.image
+
+      ## load the imagestream to find the right one and load the image location from imagestream
+
+      namespace = os.environ.get('NOTEBOOK_NAMESPACE')
+
+      openshift = OpenShift(namespace=namespace)
+
+      imagestream_list = openshift.get_imagestreams('opendatahub.io/notebook-image=true')
+
+      for i in imagestream_list.items:
+
+        print('start \n\n\n')
+
+        print(i.metadata.annotations)
+
+        print(i.spec.tags)
+
+        selected_stream = spawner.image.split(':')
+
+        if selected_stream[0] == i.metadata.name:
+
+          spawner.image =i.status.tags[0].dockerImageReference
+
+          break
+
+        # imagestream_tags = i.spec.tags
+
+        # for tag in imagestream_tags:
+          
+          # print('\nstart tag \n')
+
+          # print(tag)
+
+          # print(tag.name)
+
+
+        # print('\n')
+
+        # print(i.status.tags[0].dockerImageReference)
+
+        print(spawner.image)
+
+        print('\n')
+
+
+      spawner.single_user_profiles.load_profiles(username=spawner.user.name)
+
+      spawner.single_user_profiles.setup_services(spawner, spawner.image, spawner.user.name)
+
+
+
+    c.OpenShiftSpawner.pre_spawn_hook = setup_environment2
   jupyterhub_admins: "admin"
   gpu_mode: ""
   singleuser_pvc_size: 10Gi
