@@ -1,0 +1,21 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: sparkhistoryservers.radanalytics.io
+spec:
+  conversion:
+    strategy: None
+  group: radanalytics.io
+  names:
+    kind: SparkHistoryServer
+    listKind: SparkHistoryServerList
+    plural: sparkhistoryservers
+    singular: sparkhistoryserver
+  preserveUnknownFields: true
+  scope: Namespaced
+  versions:
+  - name: v1
+    served: true
+    storage: true
+    subresources:
+      status: {}

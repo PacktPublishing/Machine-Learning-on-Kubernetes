@@ -6,11 +6,16 @@ metadata:
 spec:
   applications:
     - kustomizeConfig:
+        parameters:
+          - name: namespace
+            value: ml-workshop
         repoRef:
           name: manifests
           path: manifests/odh-common
       name: odh-common
     - kustomizeConfig:
+        overlays:
+          - custom-image
         repoRef:
           name: manifests
           path: manifests/radanalyticsio/spark/cluster

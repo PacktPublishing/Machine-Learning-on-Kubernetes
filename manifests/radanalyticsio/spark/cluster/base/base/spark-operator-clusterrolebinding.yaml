@@ -1,0 +1,13 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: sparkoperator.v1.1.0-clusterrolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: sparkoperator.v1.1.0-clusterrole
+subjects:
+- kind: ServiceAccount
+  name: spark-crd-operator
+  #This namespace needs to be parametrized 
+  namespace: ml-workshop

@@ -8,4 +8,4 @@ spec:
   name: seldon-operator
   source: operatorhubio-catalog
   sourceNamespace: olm
-  startingCSV: seldon-operator.v1.2.2
+  startingCSV: seldon-operator.v1.11.1
