@@ -1,0 +1,35 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  # labels:
+  #   olm.owner: seldon-operator.v1.7.0
+  #   olm.owner.kind: ClusterServiceVersion
+  #   operators.coreos.com/seldon-operator-certified.ml-workshop: ""
+  name: seldon-operator.v1.7.0-seldon-manager-role
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - ""
+  resources:
+  - configmaps/status
+  verbs:
+  - get
+  - update
+  - patch
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create

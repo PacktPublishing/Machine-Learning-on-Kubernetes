@@ -22,7 +22,7 @@ spec:
       containers:
       - env:
         - name: WATCH_NAMESPACE
-          value: anz-ml
+          value: ml-workshop
         image: quay.io/radanalyticsio/spark-operator:1.1.0
         imagePullPolicy: Always
         name: spark-operator
