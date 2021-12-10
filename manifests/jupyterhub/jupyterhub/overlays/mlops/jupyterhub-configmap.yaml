@@ -38,7 +38,7 @@ data:
     }
 
     import sys, subprocess
-    
+
     subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'oauthenticator'])
 
     os.environ['OAUTH2_TOKEN_URL']= 'https://$(KEYCLOAK_URL)/auth/realms/master/protocol/openid-connect/token'
@@ -61,6 +61,16 @@ data:
     c.GenericOAuthenticator.username_key = "preferred_username"
 
     c.GenericOAuthenticator.userdata_params = {'state': 'state'} 
+
+    c.GenericOAuthenticator.tls_verify = False
+
+    c.OAuthenticator.validate_server_cert = False
+
+    # c.OpenShiftOAuthenticator.validate_cert = False
+
+    # https://github.com/jupyterhub/oauthenticator/blob/master/oauthenticator/generic.py
+
+    # https://github.com/jupyterhub/oauthenticator/blob/master/oauthenticator/oauth2.py
 
 
   jupyterhub_admins: "admin"
