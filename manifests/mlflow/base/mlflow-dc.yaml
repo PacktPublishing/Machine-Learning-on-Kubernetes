@@ -30,7 +30,7 @@ spec:
             - '--upstream=http://localhost:5500'
             - '--email-domain=*'
             - '--cookie-secret=ad12ca-qw23asd55adcwbjeprtwe'            
-            - '--oidc-issuer-url=https://keycloak-ml-workshop.apps.dbs-ibg-lab.apac-1.rht-labs.com/auth/realms/master'
+            - '--oidc-issuer-url=https://$(KEYCLOAK_URL)/auth/realms/master'
             - '--allowed-role=mlflow:mlflowuser'
             - --reverse-proxy=true
             - --skip-provider-button=true            

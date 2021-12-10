@@ -23,3 +23,10 @@ vars:
     apiVersion: v1
   fieldref:
     fieldpath: data.MLFLOW_HOST
+- name: KEYCLOAK_URL
+  objref:
+    kind: ConfigMap
+    name: airflowparameters
+    apiVersion: v1
+  fieldref:
+    fieldpath: data.KEYCLOAK_URL
