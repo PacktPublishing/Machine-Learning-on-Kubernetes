@@ -70,6 +70,8 @@ spec:
         parameters:
           - name: MLFLOW_HOST  
             value: minio.192.168.61.72.nip.io
+          - name: KEYCLOAK_URL  
+            value: keycloak.192.168.61.72.nip.io
 
         repoRef:
           name: manifests
