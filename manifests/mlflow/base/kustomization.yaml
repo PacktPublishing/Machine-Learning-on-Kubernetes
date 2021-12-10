@@ -26,7 +26,7 @@ vars:
 - name: KEYCLOAK_URL
   objref:
     kind: ConfigMap
-    name: airflowparameters
+    name: mlflowparameters
     apiVersion: v1
   fieldref:
     fieldpath: data.KEYCLOAK_URL
