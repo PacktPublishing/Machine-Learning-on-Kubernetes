@@ -17,7 +17,7 @@ spec:
     from:
       kind: DockerImage
       name: quay.io/ml-aml-workshop/elyra-spark:0.0.4
-    name: "0.0.4"
+    name: latest
     referencePolicy:
       type: Source
 status: 

@@ -17,7 +17,7 @@ spec:
     from:
       kind: DockerImage
       name: quay.io/thoth-station/s2i-lab-elyra:v0.0.13
-    name: "v0.0.13"
+    name: latest
     referencePolicy:
       type: Source
 status: 

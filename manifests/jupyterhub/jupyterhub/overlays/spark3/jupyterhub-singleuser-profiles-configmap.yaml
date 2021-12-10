@@ -22,7 +22,7 @@ data:
 
       - name: Spark Notebook
         images:
-        - s2i-lab-elyra-spark:0.0.4
+        - s2i-lab-elyra-spark:latest
         env:
           - name: PYSPARK_SUBMIT_ARGS 
             value: '--conf spark.cores.max=2 --conf spark.executor.instances=1 --conf spark.executor.memory=3g --conf spark.executor.cores=1 --conf spark.driver.memory=2G --packages org.apache.hadoop:hadoop-aws:3.2.0 pyspark-shell' 
