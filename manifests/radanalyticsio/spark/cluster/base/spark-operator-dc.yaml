@@ -23,7 +23,8 @@ spec:
       - env:
         - name: WATCH_NAMESPACE
           value: ml-workshop
-        image: quay.io/radanalyticsio/spark-operator:1.1.0
+        # image: quay.io/radanalyticsio/spark-operator:1.1.0
+        image: quay.io/ml-aml-workshop/spark-operator:1.2.1
         imagePullPolicy: Always
         name: spark-operator
         resources: {}

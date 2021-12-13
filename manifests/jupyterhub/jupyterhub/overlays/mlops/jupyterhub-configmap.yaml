@@ -106,7 +106,7 @@ data:
 
         if selected_stream[0] == i.metadata.name:
 
-          spawner.image =i.status.tags[0].dockerImageReference
+          spawner.image = i.status.tags[0].dockerImageReference
 
           break
 
