@@ -3,9 +3,9 @@ kind: Kustomization
 resources:
  - seldon-operator-clusterrole.yaml
  - seldon-operator-clusterrolebinding.yaml
-#  - seldon-operator-crd-seldondeployments.yaml
+ - seldon-operator-crd-seldondeployments.yaml
  - seldon-operator-role.yaml
  - seldon-operator-rolebinding.yaml
  - seldon-operator-sa.yaml
  - seldon-operator-dc.yaml
-#- subscription.yaml
+# - subscription.yaml

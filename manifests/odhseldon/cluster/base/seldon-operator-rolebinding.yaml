@@ -5,11 +5,11 @@ metadata:
   #   olm.owner: seldon-operator.v1.7.0
   #   olm.owner.kind: ClusterServiceVersion
   #   operators.coreos.com/seldon-operator-certified.ml-workshop: ""
-  name: seldon-operator.v1.7.0-seldon-manager-rolebinding
+  name: seldon-operator.v1.11.1-seldon-manager-rolebinding
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: seldon-operator.v1.7.0-seldon-manager-role
+  name: seldon-operator.v1.11.1-seldon-manager-role
 subjects:
 - kind: ServiceAccount
   name: seldon-manager

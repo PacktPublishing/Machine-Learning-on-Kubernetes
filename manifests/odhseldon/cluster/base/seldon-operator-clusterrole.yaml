@@ -4,7 +4,7 @@ metadata:
   # labels:
   #   olm.owner: seldon-operator.v1.7.0
     # operators.coreos.com/seldon-operator-certified.ml-workshop: ""
-  name: seldon-operator.v1.7.0-clusterrole
+  name: seldon-operator.v1.11.1-clusterrole
 rules:
 - apiGroups:
   - ""

@@ -100,25 +100,21 @@ spec:
         - name: WATCH_NAMESPACE
           value: 'ml-workshop'
         - name: RELATED_IMAGE_EXECUTOR
-          value: registry.connect.redhat.com/seldonio/seldon-core-executor@sha256:2831ca7ae5a1451df2b8ebe26784a9b8e2ef80834350a76512b9f6790c6a0e55
+          value: docker.io/seldonio/seldon-core-executor:1.12.0
         - name: RELATED_IMAGE_ENGINE
-          value: registry.connect.redhat.com/seldonio/seldon-engine@sha256:eac00afa854e5e03f367c5b052b631b20246f0b068f92669f04facc1d6d88ee0
+          value: docker.io/seldonio/seldon-engine:1.12.0
         - name: RELATED_IMAGE_STORAGE_INITIALIZER
-          value: registry.connect.redhat.com/seldonio/storage-initializer@sha256:3bd2c461a522b8de3a350cac259b6188c092fd032f0b38ad446fc5be4a3d2d34
+          value: docker.io/seldonio/storage-initializer:1.12.0
         - name: RELATED_IMAGE_SKLEARNSERVER
-          value: registry.connect.redhat.com/seldonio/sklearnserver@sha256:88d126455b150291cbb3772f67b4f35a88bb54b15ff7c879022f77fb051615ad
+          value: docker.io/seldonio/sklearnserver:1.12.0
         - name: RELATED_IMAGE_XGBOOSTSERVER
-          value: registry.connect.redhat.com/seldonio/xgboostserver@sha256:85a572a03e2c0ce1a7fb10c622f73c65d717a6e05c1ee00f5148b25774394f0b
+          value: docker.io/seldonio/xgboostserver:1.12.0
         - name: RELATED_IMAGE_MLFLOWSERVER
-          value: registry.connect.redhat.com/seldonio/mlflowserver@sha256:05cc0ecb43052aedb27954f478c059c08a8f133df71f96a39ab7eeabd0329dcd
+          value: docker.io/seldonio/mlflowserver:1.12.0
         - name: RELATED_IMAGE_TFPROXY
-          value: registry.connect.redhat.com/seldonio/tfproxy@sha256:e6ed51c45aaf1ca07ae4aaa7c2174795823dd92d7cc1073757ce671fb12abcbb
+          value: docker.io/seldonio/tfproxy:1.12.0
         - name: RELATED_IMAGE_TENSORFLOW
-          value: registry.connect.redhat.com/seldonio/tensorflow-serving@sha256:1dc53edc5c8d1b151782f8386c0770d0358c6397eaf42ec55ebd18f331c5ef9e
-        - name: RELATED_IMAGE_EXPLAINER
-          value: registry.connect.redhat.com/seldonio/alibiexplainer@sha256:a8f17861182f9611d50af0db2c93b9ddb6077b8b1919867ca92afe368886ffcd
-        - name: RELATED_IMAGE_MOCK_CLASSIFIER
-          value: registry.connect.redhat.com/seldonio/mock-classifier@sha256:35952ee4778151cd5fc69929b94e82e2dcb0ad111ffb76f7b406a2e8cc461700
+          value: docker.io/seldonio/tensorflow-serving:1.12.0
         - name: MANAGER_CREATE_RESOURCES
           value: "true"
         - name: POD_NAMESPACE
@@ -192,7 +188,8 @@ spec:
           value: "0.5"
         - name: ENGINE_DEFAULT_MEMORY_LIMIT
           value: 512Mi
-        image: registry.connect.redhat.com/seldonio/seldon-core-operator@sha256:d50e4585f1f212b3fd5aa4200ccb2e2260b44cf17ed4d0fc89bfa61cf1969b9b
+        # image: registry.connect.redhat.com/seldonio/seldon-core-operator@sha256:d50e4585f1f212b3fd5aa4200ccb2e2260b44cf17ed4d0fc89bfa61cf1969b9b
+        image: docker.io/seldonio/seldon-core-operator:1.12.0
         imagePullPolicy: IfNotPresent
         name: manager
         ports:

@@ -5,8 +5,20 @@ metadata:
   #   olm.owner: seldon-operator.v1.7.0
   #   olm.owner.kind: ClusterServiceVersion
   #   operators.coreos.com/seldon-operator-certified.ml-workshop: ""
-  name: seldon-operator.v1.7.0-seldon-manager-role
+  name: seldon-operator.v1.11.1-seldon-manager-role
 rules:
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
 - apiGroups:
   - ""
   resources:
