@@ -83,7 +83,7 @@ spec:
           terminationMessagePolicy: File
           image: 'k8s.gcr.io/git-sync/git-sync:v3.2.2'
         - name: airflow-scheduler
-          image: quay.io/ml-aml-workshop/airflow-custom:2.0.0.scheduler
+          image: quay.io/ml-on-k8s/airflow:2.0.0.scheduler
           imagePullPolicy: "Always"
           # securityContext:
           #   runAsUser: 1001
@@ -227,7 +227,7 @@ spec:
           terminationMessagePolicy: File
           image: 'k8s.gcr.io/git-sync/git-sync:v3.2.2'
         - name: airflow-web
-          image: quay.io/ml-aml-workshop/airflow-custom:2.1.7.web.keycloak
+          image: quay.io/ml-on-k8s/airflow:2.1.7.web.keycloak
           imagePullPolicy: "Always"
 #          securityContext:
 #            runAsUser: 1001
@@ -526,7 +526,7 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
         - name: redis
-          image: quay.io/ml-aml-workshop/redis-6:1-25
+          image: quay.io/ml-on-k8s/redis-6:1-25
           imagePullPolicy: "Always"
           env:
             - name: REDIS_PASSWORD
@@ -664,7 +664,7 @@ spec:
           terminationMessagePolicy: File
           image: 'k8s.gcr.io/git-sync/git-sync:v3.2.2'
         - name: airflow-worker
-          image: quay.io/ml-aml-workshop/airflow-custom:2.0.0.worker
+          image: quay.io/ml-on-k8s/airflow:2.0.0.worker
           imagePullPolicy: "Always"
           # securityContext:
           #   runAsUser: 1001
