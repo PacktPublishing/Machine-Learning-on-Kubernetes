@@ -29,11 +29,13 @@ spec:
             - '--client-secret=ad216993-cf3a-4742-ba17-b531d5c22046'
             - '--upstream=http://localhost:5500'
             - '--email-domain=*'
-            - '--cookie-secret=ad12ca-qw23asd55adcwbjeprtwe'            
+            - '--cookie-secret=ad12ca-qw23asd55adcwbjep'            
             - '--oidc-issuer-url=https://$(KEYCLOAK_URL)/auth/realms/master'
             - '--allowed-role=mlflow:mlflowuser'
             - --reverse-proxy=true
-            - --skip-provider-button=true            
+            - --skip-provider-button=true
+            - --ssl-insecure-skip-verify=true
+            - --ssl-upstream-insecure-skip-verify=true            
           ports:
             - name: public
               containerPort: 5000
