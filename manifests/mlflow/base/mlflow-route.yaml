@@ -17,6 +17,8 @@ metadata:
     app.kubernetes.io/name: mlflow
   annotations:
     openshift.io/host.generated: 'true'
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "8k"
+
 spec:
   tls:
     - hosts:

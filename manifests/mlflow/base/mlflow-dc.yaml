@@ -1,4 +1,5 @@
 ---
+# https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/oauth_provider/#keycloak-auth-provider
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -31,7 +32,7 @@ spec:
             - '--email-domain=*'
             - '--cookie-secret=ad12ca-qw23asd55adcwbjep'            
             - '--oidc-issuer-url=https://$(KEYCLOAK_URL)/auth/realms/master'
-            # - '--allowed-role=mlflow:mlflowuser'
+            - '--allowed-role=mflow:admin'
             - --reverse-proxy=true
             - --skip-provider-button=true
             - --ssl-insecure-skip-verify=true
