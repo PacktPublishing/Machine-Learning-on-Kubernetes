@@ -23,6 +23,8 @@ spec:
       - env:
         - name: WATCH_NAMESPACE
           value: ml-workshop
+        - name: QUARKUS_KUBERNETES_CLIENT_NAMESPACE
+          value: ml-workshop  
         image: quay.io/ml-on-k8s/spark-operator:1.3.0
         imagePullPolicy: Always
         name: spark-operator
@@ -33,6 +35,6 @@ spec:
       restartPolicy: Always
       schedulerName: default-scheduler
       securityContext: {}
-      serviceAccount: spark-crd-operator
-      serviceAccountName: spark-crd-operator
+      serviceAccount: spark-operator
+      serviceAccountName: spark-operator
       terminationGracePeriodSeconds: 5
