@@ -15,7 +15,7 @@ spec:
     spec:
       serviceAccountName: mlflow-proxy
       initContainers:
-        - name: waitkafka
+        - name: oauthproxy
           image: 'registry.access.redhat.com/rhscl/postgresql-96-rhel7:latest'
           command: ['sh', '-c', "until nslookup mlflow-db.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for mlflow db service; sleep 2; done"]
       containers:
@@ -31,7 +31,7 @@ spec:
             - '--email-domain=*'
             - '--cookie-secret=ad12ca-qw23asd55adcwbjep'            
             - '--oidc-issuer-url=https://$(KEYCLOAK_URL)/auth/realms/master'
-            - '--allowed-role=mlflow:mlflowuser'
+            # - '--allowed-role=mlflow:mlflowuser'
             - --reverse-proxy=true
             - --skip-provider-button=true
             - --ssl-insecure-skip-verify=true
@@ -65,8 +65,8 @@ spec:
               value: "minio123"
             - name: AWS_BUCKET_NAME
               value: "mlflow"
-          # - name: MLFLOW_S3_IGNORE_TLS
-          #   value: "true"
+            - name: MLFLOW_S3_IGNORE_TLS
+              value: "true"
           ports:
             - name: http
               containerPort: 5500

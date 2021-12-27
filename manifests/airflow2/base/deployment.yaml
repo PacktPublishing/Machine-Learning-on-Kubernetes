@@ -305,7 +305,7 @@ spec:
             - name: OAUTH_TOKEN_URL
               value: https://$(KEYCLOAK_URL)/auth/realms/master/protocol/openid-connect/token
             - name: OAUTH_AUTHORIZE_URL
-              value: https://$(KEYCLOAK_URL)/auth/realms/master/protocol/openid-connect/authorize
+              value: https://$(KEYCLOAK_URL)/auth/realms/master/protocol/openid-connect/auth
             - name: CLIENT_ID
               value: 'aflow'
             - name: CLIENT_SECRET
