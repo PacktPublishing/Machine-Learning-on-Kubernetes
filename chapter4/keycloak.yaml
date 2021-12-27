@@ -14,6 +14,20 @@ spec:
     app: keycloak
   type: LoadBalancer
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: keycloak-pvc
+  namespace: keycloak
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+  # storageClassName: standard
+  volumeMode: Filesystem
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -50,3 +64,10 @@ spec:
           httpGet:
             path: /auth/realms/master
             port: 8080
+        volumeMounts:
+        - mountPath: /opt/jboss/keycloak/standalone/data
+          name: storage
+      volumes:
+      - name: storage  
+        persistentVolumeClaim:
+          claimName: keycloak-pvc
