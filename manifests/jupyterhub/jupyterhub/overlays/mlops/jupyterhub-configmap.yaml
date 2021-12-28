@@ -5,6 +5,9 @@ metadata:
     app: jupyterhub
   name: jupyterhub-cfg
 data:
+  jupyterhub_admins: "admin"
+  gpu_mode: ""
+  singleuser_pvc_size: 2Gi
   jupyterhub_config.py: >-
     import os
 
@@ -79,7 +82,7 @@ data:
 
     from jupyterhub_singleuser_profiles.openshift import OpenShift
 
-    def setup_environment2(spawner):
+    def setup_environment_k8s(spawner):
 
       # print(spawner.image)
 
@@ -96,11 +99,11 @@ data:
 
       for i in imagestream_list.items:
 
-        print('start \n\n\n')
+        # print('start \n\n\n')
 
-        print(i.metadata.annotations)
+        # print(i.metadata.annotations)
 
-        print(i.spec.tags)
+        # print(i.spec.tags)
 
         selected_stream = spawner.image.split(':')
 
@@ -136,7 +139,10 @@ data:
 
 
 
-    c.OpenShiftSpawner.pre_spawn_hook = setup_environment2
+
+    c.OpenShiftSpawner.pre_spawn_hook = setup_environment_k8s
+    
+
   jupyterhub_admins: "admin"
   gpu_mode: ""
   singleuser_pvc_size: 10Gi
