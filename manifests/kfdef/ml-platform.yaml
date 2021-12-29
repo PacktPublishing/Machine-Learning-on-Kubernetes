@@ -67,7 +67,7 @@ spec:
     - kustomizeConfig:
         parameters:
           - name: MLFLOW_HOST  
-            value: minio.192.168.61.72.nip.io
+            value: mlflow.192.168.61.72.nip.io
           - name: KEYCLOAK_URL  
             value: keycloak.192.168.61.72.nip.io
 
@@ -80,6 +80,24 @@ spec:
           name: manifests
           path: manifests/odhseldon/cluster
       name: odhseldon
+    - kustomizeConfig:
+        parameters:
+          - name: GRAFANA_HOST  
+            value: grafana.192.168.61.72.nip.io
+          - name: KEYCLOAK_URL  
+            value: keycloak.192.168.61.72.nip.io
+          - name: CLIENT_SECRET
+            value: 'efbb6591-86d0-4270-a544-f47689460a85'
+
+        repoRef:
+          name: manifests
+          path: manifests/grafana
+      name: grafana
+    - kustomizeConfig:
+        repoRef:
+          name: manifests
+          path: manifests/prometheus
+      name: prometheus
 
 
   repos:

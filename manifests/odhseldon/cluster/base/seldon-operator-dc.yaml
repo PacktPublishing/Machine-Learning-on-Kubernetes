@@ -93,7 +93,7 @@ spec:
       - args:
         - --enable-leader-election
         - --webhook-port=8443
-        - --create-resources=$(MANAGER_CREATE_RESOURCES)
+        - --create-resources=true
         command:
         - /manager
         env:
