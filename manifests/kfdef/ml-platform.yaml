@@ -32,7 +32,11 @@ spec:
           name: manifests
           path: manifests/jupyterhub/jupyterhub
       name: jupyterhub
-
+    - kustomizeConfig:
+        repoRef:
+          name: manifests
+          path: manifests/jupyterhub-images
+      name: jupyterhub-images
     - kustomizeConfig:
         parameters:
           - name: KEYCLOAK_URL  
