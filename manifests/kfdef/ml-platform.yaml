@@ -76,11 +76,6 @@ spec:
           path: manifests/mlflow
       name: ml-workshop-mlflow
     - kustomizeConfig:
-        repoRef:
-          name: manifests
-          path: manifests/odhseldon/cluster
-      name: odhseldon
-    - kustomizeConfig:
         parameters:
           - name: GRAFANA_HOST  
             value: grafana.192.168.61.72.nip.io
@@ -98,6 +93,11 @@ spec:
           name: manifests
           path: manifests/prometheus
       name: prometheus
+    - kustomizeConfig:
+        repoRef:
+          name: manifests
+          path: manifests/odhseldon/cluster
+      name: odhseldon
 
 
   repos:
