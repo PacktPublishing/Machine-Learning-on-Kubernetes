@@ -1,0 +1,41 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml
+  - pvc.yaml
+
+commonLabels:
+  opendatahub.io/component: "false"
+  component.opendatahub.io/name: "grafana"
+
+
+
+configMapGenerator:
+- name: grafanaparameters
+  env: params.env
+generatorOptions:
+  disableNameSuffixHash: true
+vars:
+- name: KEYCLOAK_URL
+  objref:
+    kind: ConfigMap
+    name: grafanaparameters
+    apiVersion: v1
+  fieldref:
+    fieldpath: data.KEYCLOAK_URL
+- name: CLIENT_SECRET
+  objref:
+    kind: ConfigMap
+    name: grafanaparameters
+    apiVersion: v1
+  fieldref:
+    fieldpath: data.CLIENT_SECRET
+- name: GRAFANA_HOST
+  objref:
+    kind: ConfigMap
+    name: grafanaparameters
+    apiVersion: v1
+  fieldref:
+    fieldpath: data.GRAFANA_HOST

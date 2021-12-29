@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grafana
+  labels:
+    app.kubernetes.io/name: grafana
+    component.opendatahub.io/name: airflow2
+  annotations:
+    openshift.io/host.generated: 'false'
+spec:
+  tls:
+    - hosts:
+      - $(GRAFANA_HOST)
+
+  rules:
+  - host: $(GRAFANA_HOST)
+    http:
+      paths:
+      - backend:
+          service:
+            name: grafana
+            port:
+              number: 8080
+        path: /
+        pathType: ImplementationSpecific  
