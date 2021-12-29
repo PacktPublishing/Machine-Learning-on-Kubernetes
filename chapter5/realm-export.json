@@ -668,7 +668,6 @@
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "secret": "**********",
       "redirectUris": [
         "*"
       ],
@@ -680,7 +679,7 @@
       "implicitFlowEnabled": false,
       "directAccessGrantsEnabled": true,
       "serviceAccountsEnabled": false,
-      "publicClient": false,
+      "publicClient": true,
       "frontchannelLogout": false,
       "protocol": "openid-connect",
       "attributes": {
@@ -881,7 +880,6 @@
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "secret": "**********",
       "redirectUris": [
         "*"
       ],
@@ -893,7 +891,7 @@
       "implicitFlowEnabled": false,
       "directAccessGrantsEnabled": true,
       "serviceAccountsEnabled": false,
-      "publicClient": false,
+      "publicClient": true,
       "frontchannelLogout": false,
       "protocol": "openid-connect",
       "attributes": {
