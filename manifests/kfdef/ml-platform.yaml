@@ -89,6 +89,9 @@ spec:
           path: manifests/grafana
       name: grafana
     - kustomizeConfig:
+        parameters:
+          - name: namespace
+            value: ml-workshop
         repoRef:
           name: manifests
           path: manifests/prometheus
