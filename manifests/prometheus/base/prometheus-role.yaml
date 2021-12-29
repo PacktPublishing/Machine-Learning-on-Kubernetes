@@ -10,7 +10,7 @@ rules:
       - list
       - watch
     apiGroups:
-      - ''
+      - '*'
     resources:
       - services
       - endpoints
@@ -18,7 +18,7 @@ rules:
   - verbs:
       - get
     apiGroups:
-      - ''
+      - '*'
     resources:
       - configmaps
 
@@ -29,8 +29,9 @@ metadata:
   name: cluster-monitoring-view
 rules:
 - apiGroups:
-  - ""
+  - "*"
   resources:
   - namespaces
+  - statefulsets
   verbs:
   - get      

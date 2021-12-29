@@ -3,6 +3,8 @@ kind: Kustomization
 resources:
   - subscription.yaml
   - prometheus.yaml
+  - prometheus-role-bindings.yaml
+  - prometheus-role.yaml
 
 commonLabels:
   opendatahub.io/component: "false"
