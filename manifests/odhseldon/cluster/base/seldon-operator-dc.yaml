@@ -1,10 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  # labels:
-    # olm.owner: seldon-operator.v1.7.0
-    # olm.owner.kind: ClusterServiceVersion
-    # operators.coreos.com/seldon-operator-certified.ml-workshop: ""
   name: seldon-controller-manager
 spec:
   progressDeadlineSeconds: 600
@@ -24,64 +20,6 @@ spec:
     type: RollingUpdate
   template:
     metadata:
-      # annotations:
-      #   alm-examples: |-
-      #     [
-      #       {
-      #         "apiVersion": "machinelearning.seldon.io/v1",
-      #         "kind": "SeldonDeployment",
-      #         "metadata": {
-      #           "labels": {
-      #             "app": "seldon",
-      #             "app.kubernetes.io/instance": "seldon1",
-      #             "app.kubernetes.io/name": "seldon",
-      #             "app.kubernetes.io/version": "v0.5"
-      #           },
-      #           "name": "seldon-model"
-      #         },
-      #         "spec": {
-      #           "name": "test-deployment",
-      #           "predictors": [
-      #             {
-      #               "componentSpecs": [
-      #                 {
-      #                   "spec": {
-      #                     "containers": [
-      #                       {
-      #                         "image": "seldonio/mock_classifier:1.6.0",
-      #                         "name": "classifier"
-      #                       }
-      #                     ]
-      #                   }
-      #                 }
-      #               ],
-      #               "graph": {
-      #                 "children": [],
-      #                 "name": "classifier",
-      #                 "type": "MODEL"
-      #               },
-      #               "name": "example",
-      #               "replicas": 1
-      #             }
-      #           ]
-      #         },
-      #         "status": {}
-      #       }
-      #     ]
-      #   capabilities: Seamless Upgrades
-      #   categories: AI/Machine Learning
-      #   certified: "false"
-      #   containerImage: registry.connect.redhat.com/seldonio/seldon-core-operator@sha256:d50e4585f1f212b3fd5aa4200ccb2e2260b44cf17ed4d0fc89bfa61cf1969b9b
-      #   description: The Seldon operator for management, monitoring and operations of machine learning systems through the Seldon Engine. Once installed, the Seldon Operator provides multiple functions which facilitate the productisation, monitoring and maintenance of machine learning systems at scale.
-      #   olm.operatorGroup: opendatahub
-      #   # olm.operatorNamespace: ml-workshop
-      #   # olm.targetNamespaces: ml-workshop
-      #   operatorframework.io/properties: '{"properties":[{"type":"olm.gvk","value":{"group":"machinelearning.seldon.io","kind":"SeldonDeployment","version":"v1"}},{"type":"olm.gvk","value":{"group":"machinelearning.seldon.io","kind":"SeldonDeployment","version":"v1alpha2"}},{"type":"olm.gvk","value":{"group":"machinelearning.seldon.io","kind":"SeldonDeployment","version":"v1alpha3"}},{"type":"olm.package","value":{"packageName":"seldon-operator-certified","version":"1.7.0"}}]}'
-      #   operators.operatorframework.io/builder: operator-sdk-v1.2.0
-      #   operators.operatorframework.io/project_layout: go.kubebuilder.io/v2
-      #   repository: https://github.com/SeldonIO/seldon-core
-      #   sidecar.istio.io/inject: "false"
-      #   support: Clive Cox
       labels:
         app: seldon
         app.kubernetes.io/instance: seldon1
@@ -206,3 +144,5 @@ spec:
       serviceAccount: seldon-manager
       serviceAccountName: seldon-manager
       terminationGracePeriodSeconds: 10
+
+

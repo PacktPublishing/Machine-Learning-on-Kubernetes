@@ -7,3 +7,5 @@ metadata:
     app.kubernetes.io/name: seldon
     app.kubernetes.io/version: v0.5
   name: seldon-manager
+
+  

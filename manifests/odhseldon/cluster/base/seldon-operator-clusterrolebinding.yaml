@@ -1,9 +1,6 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  # labels:
-  #   olm.owner: seldon-operator.v1.7.0
-  #   operators.coreos.com/seldon-operator-certified.ml-workshop: ""
   name: seldon-operator.v1.11.1-clusterrolebinding
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -13,3 +10,5 @@ subjects:
 - kind: ServiceAccount
   name: seldon-manager
   namespace: ml-workshop
+
+  
