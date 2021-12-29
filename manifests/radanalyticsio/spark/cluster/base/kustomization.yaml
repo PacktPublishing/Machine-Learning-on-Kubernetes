@@ -4,7 +4,7 @@ namespace: opendatahub
 resources:
 # operator is installing the CRDs now.
 #  - spark-operator-crd-sparkapplications.yaml
-#  - spark-operator-crd-sparkclusters.yaml
+ - spark-operator-crd-sparkclusters.yaml
  - spark-operator-crd-sparkhistoryservers.yaml
  - spark-operator-clusterrole.yaml
  - spark-operator-clusterrolebinding.yaml
