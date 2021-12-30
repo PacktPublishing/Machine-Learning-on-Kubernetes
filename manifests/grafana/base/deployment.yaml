@@ -19,15 +19,15 @@ spec:
           - 0
       containers:
         - name: grafana
-          image: grafana/grafana:7.5.2
+          image: grafana/grafana-oss:8.3.3-ubuntu
           imagePullPolicy: IfNotPresent
           env:
             - name: GF_AUTH_GENERIC_OAUTH_NAME
-              value: OAuth
+              value: KeyCloak
             - name: GF_AUTH_GENERIC_OAUTH_ENABLED
               value: "true"
             - name: GF_AUTH_GENERIC_OAUTH_ALLOW_SIGN_UP
-              value: "false"
+              value: "true"
             - name: GF_AUTH_GENERIC_OAUTH_CLIENT_ID
               value: grafana
             - name: GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET
@@ -36,15 +36,20 @@ spec:
               value: "true"
             - name: GF_AUTH_GENERIC_OAUTH_EMAIL_ATTRIBUTE_NAME
               value: email
-            - name: GF_AUTH_GENERIC_OAUTH_ALLOWED_DOMAINS
-              value: "*"
+            # - name: GF_AUTH_GENERIC_OAUTH_ALLOWED_DOMAINS
+            #   value: "*"
             - name: GF_AUTH_GENERIC_OAUTH_AUTH_URL
               value: https://$(KEYCLOAK_URL)/auth/realms/master/protocol/openid-connect/auth
             - name: GF_AUTH_GENERIC_OAUTH_TOKEN_URL
               value: https://$(KEYCLOAK_URL)/auth/realms/master/protocol/openid-connect/token
             - name: GF_AUTH_GENERIC_OAUTH_API_URL
               value: https://$(KEYCLOAK_URL)/auth/realms/master/protocol/openid-connect/userinfo
-
+            - name: GF_AUTH_GENERIC_OAUTH_SCOPES
+              value: "roles profile email"
+            - name: GF_SERVER_ROOT_URL
+              value: https://$(GRAFANA_HOST)  
+            - name: GF_AUTH_GENERIC_OAUTH_ROLE_ATTRIBUTE_PATH
+              value: contains(realm_access.roles[*], 'Admin') && 'Admin' || contains(realm_access.roles[*], 'editor') && 'editor' || 'Admin'
           ports:
             - containerPort: 3000
               name: http-grafana
