@@ -22,7 +22,6 @@ data:
 
       - name: Spark Notebook
         images:
-        - s2i-lab-elyra-spark:latest
         - quay.io/ml-aml-workshop/elyra-spark:0.0.4
         env:
           - name: PYSPARK_SUBMIT_ARGS 
