@@ -1,12 +1,9 @@
 apiVersion: radanalytics.io/v1
 kind: SparkCluster
 metadata:
-  name: spark-cluster-admin
+  name: simple-spark-cluster
   namespace: ml-workshop
 spec:
-  customImage: 'quay.io/ml-aml-workshop/spark3:ross'
-  # customImage: 'quay.io/ml-on-k8s/spark:3.0.0'
-
   master:
     instances: '1'
   metrics: true
