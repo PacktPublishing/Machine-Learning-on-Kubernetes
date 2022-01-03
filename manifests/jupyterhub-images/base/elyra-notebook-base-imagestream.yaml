@@ -16,11 +16,13 @@ spec:
       openshift.io/imported-from: quay.io/thoth-station/s2i-lab-elyra
     from:
       kind: DockerImage
-      name: quay.io/thoth-station/s2i-lab-elyra:v0.0.13
+      # name: quay.io/thoth-station/s2i-lab-elyra:v0.0.13
+      name: quay.io/thoth-station/s2i-lab-elyra:v0.1.1
     name: latest
     referencePolicy:
       type: Source
 status: 
   tags:
     - tag: latest
-      dockerImageReference: quay.io/thoth-station/s2i-lab-elyra:v0.0.13
+      # dockerImageReference: quay.io/thoth-station/s2i-lab-elyra:v0.0.13
+      dockerImageReference: quay.io/thoth-station/s2i-lab-elyra:v0.1.1
