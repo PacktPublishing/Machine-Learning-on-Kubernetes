@@ -26,7 +26,7 @@ spec:
             - '--provider=keycloak-oidc'
             - '--https-address='
             - '--http-address=:5000'
-            - '--client-id=mlflow'
+            - '--client-id=mflow'
             - '--client-secret=ad216993-cf3a-4742-ba17-b531d5c22046'
             - '--upstream=http://localhost:5500'
             - '--email-domain=*'
