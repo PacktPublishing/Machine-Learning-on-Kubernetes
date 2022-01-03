@@ -1,0 +1,8 @@
+FROM quay.io/thoth-station/s2i-lab-elyra:v0.1.1
+
+# copy the requirements.txt file whoch contains all the deps
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
+
+# you can install dependices directly too
+RUN pip install watermark
