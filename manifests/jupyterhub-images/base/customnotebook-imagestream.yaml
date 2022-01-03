@@ -9,7 +9,7 @@ metadata:
   name: elyra-scikit-customnotebook
 spec:
   tags:
-    from:
+  - from:
       kind: DockerImage
       name: quay.io/ml-on-k8s/scikit-notebook:v1.1.0
     name: latest
