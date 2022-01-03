@@ -63,7 +63,10 @@ spec:
             - name: AWS_ACCESS_KEY_ID
               value: "minio"
             - name: AWS_SECRET_ACCESS_KEY
-              value: "minio123"
+              valueFrom:
+                secretKeyRef:
+                  name: mlflow-store
+                  key: AWS_SECRET_ACCESS_KEY            
             - name: AWS_BUCKET_NAME
               value: "mlflow"
             - name: MLFLOW_S3_IGNORE_TLS
