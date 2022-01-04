@@ -1,5 +1,8 @@
 scikit-learn==1.0
 joblib==1.1.0
-mlflow==1.20.2
+mlflow==1.22.0
+category-encoders==2.2.2
+boto3==1.18.46
+matplotlib==3.5.1
 
 
