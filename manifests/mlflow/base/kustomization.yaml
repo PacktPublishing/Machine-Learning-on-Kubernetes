@@ -4,6 +4,7 @@ resources:
   - mlflow-postgesql-statefulset.yaml
   - mlflow-dc.yaml
   - mlflow-route.yaml
+  - minio-password-secret.yaml
 
 commonLabels:
   opendatahub.io/component: "false"
