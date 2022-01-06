@@ -22,11 +22,11 @@ spec:
           - name: s3_endpoint_url
             value: "minio-ml-workshop.ml-workshop:9000"
           - name: KEYCLOAK_URL  
-            value: keycloak.192.168.61.72.nip.io
+            value: keycloak.<IP Address>.nip.io
           - name: CLIENT_SECRET
             value: '30fc8258-459b-47d8-b81e-16aabe31ce4f'  
           - name: JUPYTERHUB_HOST  
-            value: jupyterhub.192.168.61.72.nip.io
+            value: jupyterhub.<IP Address>.nip.io
 
         repoRef:
           name: manifests
@@ -40,11 +40,11 @@ spec:
     - kustomizeConfig:
         parameters:
           - name: KEYCLOAK_URL  
-            value: keycloak.192.168.61.72.nip.io
+            value: keycloak.<IP Address>.nip.io
           - name: CLIENT_SECRET
             value: 'efbb6591-86d0-4270-a544-f47689460a85'
           - name: AIRFLOW_HOST  
-            value: airflow.192.168.61.72.nip.io
+            value: airflow.<IP Address>.nip.io
 
 
         repoRef:
@@ -57,7 +57,7 @@ spec:
           - name: s3_endpoint_url
             value: "minio-ml-workshop.ml-workshop:9000"
           - name: MINIO_HOST  
-            value: minio.192.168.61.72.nip.io
+            value: minio.<IP Address>.nip.io
 
         repoRef:
           name: manifests
@@ -66,9 +66,9 @@ spec:
     - kustomizeConfig:
         parameters:
           - name: MLFLOW_HOST  
-            value: mlflow.192.168.61.72.nip.io
+            value: mlflow.<IP Address>.nip.io
           - name: KEYCLOAK_URL  
-            value: keycloak.192.168.61.72.nip.io
+            value: keycloak.<IP Address>.nip.io
 
         repoRef:
           name: manifests
@@ -77,9 +77,9 @@ spec:
     - kustomizeConfig:
         parameters:
           - name: GRAFANA_HOST  
-            value: grafana.192.168.61.72.nip.io
+            value: grafana.<IP Address>.nip.io
           - name: KEYCLOAK_URL  
-            value: keycloak.192.168.61.72.nip.io
+            value: keycloak.<IP Address>.nip.io
           - name: CLIENT_SECRET
             value: 'efbb6591-86d0-4270-a544-f47689460a85'
 
