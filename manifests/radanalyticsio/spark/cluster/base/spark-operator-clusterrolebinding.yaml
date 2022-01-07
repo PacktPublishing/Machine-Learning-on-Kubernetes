@@ -8,6 +8,6 @@ roleRef:
   name: sparkoperator.v1.1.0-clusterrole
 subjects:
 - kind: ServiceAccount
-  name: spark-crd-operator
+  name: spark-operator
   #This namespace needs to be parametrized 
   namespace: ml-workshop
