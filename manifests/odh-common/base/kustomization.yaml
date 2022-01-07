@@ -4,6 +4,7 @@ resources:
   - image-stream-crd.yaml
   - route-crd.yaml
   - operatorgroup.yaml
+  - limits.yaml
 
 commonLabels:
   opendatahub.io/component: "true"
