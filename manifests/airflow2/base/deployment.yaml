@@ -51,6 +51,10 @@ spec:
               weight: 1
         nodeAffinity:
 
+      initContainers:
+        - name: waifordatabase
+          image: 'registry.access.redhat.com/rhscl/postgresql-96-rhel7:latest'
+          command: ['sh', '-c', "until nslookup app-aflow-postgresql.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for airflow db service; sleep 5; done"]
 
       containers:
         - resources: {}
@@ -196,6 +200,11 @@ spec:
         nodeAffinity:
 
       serviceAccountName: airflow2-proxy
+      initContainers:
+        - name: waifordatabase
+          image: 'registry.access.redhat.com/rhscl/postgresql-96-rhel7:latest'
+          command: ['sh', '-c', "until nslookup app-aflow-postgresql.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for airflow db service; sleep 5; done"]
+
       containers:
         - resources: {}
           terminationMessagePath: /dev/termination-log
@@ -633,6 +642,10 @@ spec:
         nodeAffinity:
 
       initContainers:
+        - name: waifordatabase
+          image: 'registry.access.redhat.com/rhscl/postgresql-96-rhel7:latest'
+          command: ['sh', '-c', "until nslookup app-aflow-postgresql.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for airflow db service; sleep 5; done"]
+
       containers:
         - resources: {}
           terminationMessagePath: /dev/termination-log
