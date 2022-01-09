@@ -25,5 +25,8 @@ def record_libraries(mlflow):
     mlflow.log_artifact("pip_freeze.txt")
     os.remove("pip_freeze.txt")
     
-def log_metrics(mlflow, name, value):
-    mlflow.tracking.fluent.log_metric(name, value)   
+def log_metric(mlflow, metric_name, metric_value):
+    mlflow.tracking.fluent.log_metric(key=metric_name, value=metric_value)   
+    
+def log_param(mlflow, param_name, param_value):
+    mlflow.tracking.fluent.log_param(key=param_name, value=param_value)       
