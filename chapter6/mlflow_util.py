@@ -17,11 +17,6 @@ def get_pip_freeze():
 new_line = bytes("\n", "UTF-8")
 
 def record_libraries(mlflow):
-    """
-    This method run the pip freeze command record the output as a file
-    :param mlflow:
-    :return:
-    """
     with open("pip_freeze.txt", "wb") as file:
         for line in get_pip_freeze():
             file.write(line)
@@ -29,3 +24,6 @@ def record_libraries(mlflow):
     file.close()
     mlflow.log_artifact("pip_freeze.txt")
     os.remove("pip_freeze.txt")
+    
+def log_metrics(mlflow, name, value):
+    mlflow.tracking.fluent.log_metric(name, value)   
