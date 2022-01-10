@@ -13,7 +13,6 @@ async def call_outlier_model(payload, request_headers):
         can trigger an event which can then be handled as needed
     """
     async with httpx.AsyncClient() as client:
-        print("Calling")
         response = await client.post(url, json=payload)
         print(f"response for {payload} is {response} with data {response.text}")
 
