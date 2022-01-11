@@ -1,11 +1,9 @@
 import string
 import subprocess
 import os
-import os
 import mlflow
 from minio import Minio
-from jinja2 import Template
-import time
+from mlflow.tracking import MlflowClient
 
 
 """
@@ -47,13 +45,18 @@ def init():
 
 def download_artifacts():
     print("retrieving model metadata from mlflow...")
-    model = mlflow.pyfunc.load_model(
-        model_uri=f"models:/{model_name}/{model_version}"
-    )
+    # model = mlflow.pyfunc.load_model(
+    #     model_uri=f"models:/{model_name}/{model_version}"
+    # )
+    client = MlflowClient()
+
+    model = client.get_registered_model("mlflowdemo")
+
     print(model)
 
-    run_id = model.metadata.run_id
-    experiment_id = mlflow.get_run(run_id).info.experiment_id
+    run_id = model._latest_version[0].run_id
+    source = model._latest_version[0].source
+    experiment_id = "1" # to be calculated from the source which is source='s3://mlflow/1/bf721e5641394ed6866baf20131fca20/artifacts/model'
 
     print("initializing connection to s3 server...")
     minioClient = get_s3_server()
