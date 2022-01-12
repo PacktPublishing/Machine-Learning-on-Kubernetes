@@ -1,6 +1,6 @@
 import string
 import subprocess
-import os
+import os, base64
 import mlflow
 from minio import Minio
 from mlflow.tracking import MlflowClient
@@ -29,6 +29,14 @@ model_name = os.environ["MODEL_NAME"]
 model_version = os.environ["MODEL_VERSION"]
 build_name = f"seldon-model-{model_name}-v{model_version}"
 
+auth_encoded = string.Template("$CONTAINER_REGISTRY_USER:$CONTAINER_REGISTRY_PASSWORD").substitute(os.environ)
+os.environ["CONTAINER_REGISTRY_CREDS"] = base64.b64encode(auth_encoded.encode("ascii")).decode("ascii")
+
+docker_auth = string.Template('{"auths":{"$CONTAINER_REGISTRY":{"auth":"$CONTAINER_REGISTRY_CREDS"}}}').substitute(os.environ)
+print(docker_auth)
+f = open("/kaniko/.docker/config.json", "w")
+f.write(docker_auth)
+f.close()
 
 def get_s3_server():
     minioClient = Minio('minio-ml-workshop:9000',
@@ -75,7 +83,12 @@ def download_artifacts():
 
 def build_push_image():
     container_location = string.Template("$CONTAINER_REGISTRY/$CONTAINER_DETAILS").substitute(os.environ)
-    print(subprocess.check_output(['/kaniko/executor', '--context', '/workspace',  '--dockerfile', 'Dockerfile', '--destination', container_location]))
+    full_command = "/kaniko/executor --context=" + os.getcwd() + " --dockerfile=Dockerfile --verbosity=debug --cache=true --single-snapshot=true --destination=" + container_location
+    print(full_command)
+    process = subprocess.run(full_command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    print(process.stdout)
+    print(process.stderr)
+    # print(subprocess.check_output(['/kaniko/executor', '--context', '/workspace',  '--dockerfile', 'Dockerfile', '--destination', container_location]))
 
 
 init()
