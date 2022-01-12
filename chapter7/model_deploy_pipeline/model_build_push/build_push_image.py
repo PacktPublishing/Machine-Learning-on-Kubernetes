@@ -1,6 +1,7 @@
 import string
 import subprocess
-import os, base64
+import os
+import base64
 import mlflow
 from minio import Minio
 from mlflow.tracking import MlflowClient
