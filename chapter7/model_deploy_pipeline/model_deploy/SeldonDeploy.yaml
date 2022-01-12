@@ -1,4 +1,5 @@
-apiVersion: machinelearning.seldon.io/v1alpha2
+#apiVersion: machinelearning.seldon.io/v1alpha2
+apiVersion: machinelearning.seldon.io/v1
 kind: SeldonDeployment
 metadata:
   labels:
@@ -7,7 +8,7 @@ metadata:
 spec:
   annotations:
     project_name: {{  model_name }}
-    deployment_version: {{  experiment_id }}
+    deployment_version: "{{  experiment_id }}"
   #     seldon.io/engine-separate-pod: "true"
   name: {{  model_name }}-spec
   predictors:
@@ -22,7 +23,7 @@ spec:
             minReplicas: 1
           spec:
             containers:
-              - image: { { model_coordinates } }
+              - image: {{ model_coordinates }}
                 imagePullPolicy: Always
                 name: {{  model_name }}transformer
                 env:
@@ -36,7 +37,7 @@ spec:
                     value: "6005"
                   - name: HTTP_PORT
                     value: "9000"
-              - image: { { model_coordinates } }
+              - image: {{ model_coordinates }}
                 imagePullPolicy: Always
                 name: {{  model_name }}predictor
                 env:
@@ -70,7 +71,7 @@ spec:
 
         name: predictor
         annotations:
-          predictor_version: {{  experiment_id }}
+          predictor_version: "{{  experiment_id }}"
           team: opendatahub
           seldon.io/svc-name: model-{{  experiment_id }}-{{ model_name }}
         labels:

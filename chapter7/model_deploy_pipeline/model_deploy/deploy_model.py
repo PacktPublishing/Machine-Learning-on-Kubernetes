@@ -9,7 +9,7 @@ model_version = os.environ["MODEL_VERSION"]
 build_name = f"seldon-model-{model_name}-v{model_version}"
 
 #temp
-run_id = "11"
+run_id = "1"
 
 model_container_location = os.environ["CONTAINER_REGISTRY"] + "/" + os.environ["CONTAINER_DETAILS"]
 

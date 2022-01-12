@@ -2,6 +2,9 @@
 FROM registry.access.redhat.com/ubi8/python-38:1-77
 
 WORKDIR /microservice
+COPY base_requirements.txt /microservice/
+RUN pip install -r base_requirements.txt
+
 COPY requirements.txt /microservice/
 RUN pip install -r requirements.txt
 

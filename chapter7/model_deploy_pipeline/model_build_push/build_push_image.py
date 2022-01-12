@@ -58,7 +58,7 @@ def download_artifacts():
     # )
     client = MlflowClient()
 
-    model = client.get_registered_model("mlflowdemo")
+    model = client.get_registered_model(model_name)
 
     print(model)
 
