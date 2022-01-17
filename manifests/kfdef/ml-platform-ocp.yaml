@@ -1,3 +1,4 @@
+
 apiVersion: kfdef.apps.kubeflow.org/v1
 kind: KfDef
 metadata:
@@ -6,8 +7,6 @@ metadata:
 spec:
   applications:
     - kustomizeConfig:
-        overlays:
-          - kubernetes
         parameters:
           - name: namespace
             value: ml-workshop
@@ -24,11 +23,11 @@ spec:
           - name: s3_endpoint_url
             value: "minio-ml-workshop.ml-workshop:9000"
           - name: KEYCLOAK_URL  
-            value: keycloak.<IP Address>.nip.io
+            value: keycloak-keycloak.apps.cluster-26hnv.26hnv.sandbox1766.opentlc.com
           - name: CLIENT_SECRET
             value: '30fc8258-459b-47d8-b81e-16aabe31ce4f'  
           - name: JUPYTERHUB_HOST  
-            value: jupyterhub.<IP Address>.nip.io
+            value:  jupyterhub-ml-workshop.apps.cluster-26hnv.26hnv.sandbox1766.opentlc.com 
 
         repoRef:
           name: manifests
@@ -42,11 +41,11 @@ spec:
     - kustomizeConfig:
         parameters:
           - name: KEYCLOAK_URL  
-            value: keycloak.<IP Address>.nip.io
+            value: keycloak-keycloak.apps.cluster-26hnv.26hnv.sandbox1766.opentlc.com
           - name: CLIENT_SECRET
             value: 'efbb6591-86d0-4270-a544-f47689460a85'
           - name: AIRFLOW_HOST  
-            value: airflow.<IP Address>.nip.io
+            value: airflow-ml-workshop.apps.cluster-26hnv.26hnv.sandbox1766.opentlc.com 
 
 
         repoRef:
@@ -59,7 +58,7 @@ spec:
           - name: s3_endpoint_url
             value: "minio-ml-workshop.ml-workshop:9000"
           - name: MINIO_HOST  
-            value: minio.<IP Address>.nip.io
+            value: minio-ml-workshop.apps.cluster-26hnv.26hnv.sandbox1766.opentlc.com
 
         repoRef:
           name: manifests
@@ -68,9 +67,9 @@ spec:
     - kustomizeConfig:
         parameters:
           - name: MLFLOW_HOST  
-            value: mlflow.<IP Address>.nip.io
+            value: mlflow-ml-workshop.apps.cluster-26hnv.26hnv.sandbox1766.opentlc.com
           - name: KEYCLOAK_URL  
-            value: keycloak.<IP Address>.nip.io
+            value: keycloak-keycloak.apps.cluster-26hnv.26hnv.sandbox1766.opentlc.com
 
         repoRef:
           name: manifests
@@ -89,9 +88,9 @@ spec:
     - kustomizeConfig:
         parameters:
           - name: GRAFANA_HOST  
-            value: grafana.<IP Address>.nip.io
+            value: grafana-ml-workshop.apps.cluster-26hnv.26hnv.sandbox1766.opentlc.com
           - name: KEYCLOAK_URL  
-            value: keycloak.<IP Address>.nip.io
+            value: keycloak-keycloak.apps.cluster-26hnv.26hnv.sandbox1766.opentlc.com
           - name: CLIENT_SECRET
             value: 'efbb6591-86d0-4270-a544-f47689460a85'
 
