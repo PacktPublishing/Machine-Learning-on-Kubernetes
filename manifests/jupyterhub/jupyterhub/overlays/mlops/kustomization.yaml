@@ -6,7 +6,6 @@ bases:
 patchesStrategicMerge:
   - jupyterhub-singleuser-profiles-sizes-configmap.yaml
   - jupyterhub-configmap.yaml
-  - jupyterhub-db-dc.yaml
 
 commonLabels:
   opendatahub.io/component: "true"
