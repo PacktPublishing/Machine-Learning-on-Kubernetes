@@ -14,7 +14,6 @@ resources:
 - jupyterhub-cluster-role.yaml
 - jupyterhub-cluster-rolebinding.yaml
 - jupyterhub-ingress.yaml
-- jupyterhub-route.yaml
 - jupyterhub-singleuser-profiles-configmap.yaml
 - jupyterhub-singleuser-profiles-sizes-configmap.yaml
 - jupyterhub-spark-operator-configmap.yaml
