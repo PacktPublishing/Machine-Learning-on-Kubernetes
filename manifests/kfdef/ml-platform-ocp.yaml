@@ -18,8 +18,6 @@ spec:
         overlays:
           - mlops
           - spark3
-          - openshift
-
         parameters:
           - name: s3_endpoint_url
             value: "minio-ml-workshop.ml-workshop:9000"
