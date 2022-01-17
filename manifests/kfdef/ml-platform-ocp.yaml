@@ -18,6 +18,7 @@ spec:
         overlays:
           - mlops
           - spark3
+          - openshift
 
         parameters:
           - name: s3_endpoint_url

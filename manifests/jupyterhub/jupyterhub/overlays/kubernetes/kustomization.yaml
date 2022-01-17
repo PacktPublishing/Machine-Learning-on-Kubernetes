@@ -1,0 +1,12 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+bases:
+  - ../../base
+
+patchesStrategicMerge:
+  - jupyterhub-db-dc.yaml
+  - jupyterhub-ingress.yaml
+
+commonLabels:
+  opendatahub.io/component: "true"
+  component.opendatahub.io/name: jupyterhub
