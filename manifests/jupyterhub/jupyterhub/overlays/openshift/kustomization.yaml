@@ -12,18 +12,19 @@ commonLabels:
   component.opendatahub.io/name: jupyterhub
 
 
-configMapGenerator:
-- name: parameters-host
-  env: params.env
-generatorOptions:
-  disableNameSuffixHash: true
-vars:
-- name: JUPYTERHUB_HOST
-  objref:
-    kind: ConfigMap
-    name: parameters-host
-    apiVersion: v1
-  fieldref:
-    fieldpath: data.JUPYTERHUB_HOST
-configurations:
-- params.yaml
+# configMapGenerator:
+# - name: parameters
+#   behavior: merge
+#   env: params.env
+# generatorOptions:
+#   disableNameSuffixHash: true
+# vars:
+# - name: JUPYTERHUB_HOST
+#   objref:
+#     kind: ConfigMap
+#     name: parameters
+#     apiVersion: v1
+#   fieldref:
+#     fieldpath: data.JUPYTERHUB_HOST
+# configurations:
+# - params.yaml
