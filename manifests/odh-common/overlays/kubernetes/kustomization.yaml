@@ -3,7 +3,7 @@ kind: Kustomization
 bases:
   - ../../base
 
-patchesStrategicMerge:
+resources:
   - image-stream-crd.yaml
   - route-crd.yaml
 

@@ -3,8 +3,9 @@ kind: Kustomization
 bases:
   - ../../base
 
-patchesStrategicMerge:
+resources:
   - jupyterhub-ingress.yaml
+
 
 commonLabels:
   opendatahub.io/component: "true"
