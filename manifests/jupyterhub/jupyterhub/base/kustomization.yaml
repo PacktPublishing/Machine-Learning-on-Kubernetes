@@ -78,12 +78,12 @@ vars:
     apiVersion: v1
   fieldref:
     fieldpath: data.CLIENT_SECRET
-- name: JUPYTERHUB_HOST
-  objref:
-    kind: ConfigMap
-    name: parameters
-    apiVersion: v1
-  fieldref:
-    fieldpath: data.JUPYTERHUB_HOST
+# - name: JUPYTERHUB_HOST
+#   objref:
+#     kind: ConfigMap
+#     name: parameters
+#     apiVersion: v1
+#   fieldref:
+#     fieldpath: data.JUPYTERHUB_HOST
 configurations:
 - params.yaml
