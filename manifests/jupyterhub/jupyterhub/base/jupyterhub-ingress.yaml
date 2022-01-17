@@ -1,25 +1,3 @@
----
-apiVersion: route.openshift.io/v1
-kind: Route
-metadata:
-  labels:
-    app: jupyterhub
-  name: jupyterhub
-spec:
-  host: $(JUPYTERHUB_HOST)
-  port:
-    targetPort: 8080-tcp
-  tls:
-    insecureEdgeTerminationPolicy: Redirect
-    termination: edge
-  to:
-    kind: Service
-    name: jupyterhub
-    weight: 100
-
-
-
----
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
