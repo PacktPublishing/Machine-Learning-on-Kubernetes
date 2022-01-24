@@ -1,0 +1,57 @@
+apiVersion: machinelearning.seldon.io/v1
+kind: SeldonDeployment
+metadata:
+  labels:
+    app: seldon
+  name: model-test
+spec:
+  annotations:
+    project_name: test
+    deployment_version: v1
+  name: model-test-spec
+  predictors:
+      - componentSpecs:
+        - spec:
+            containers:
+              - image: <INSERT CONTAINER LOCATION HERE>
+                imagePullPolicy: Always
+                name: model-test-predictor
+                env:
+                  - name: MODEL_NAME
+                    value: "Predictor"
+                  - name: SERVICE_TYPE
+                    value: MODEL
+                  - name: GRPC_PORT
+                    value: "5005"
+                  - name: METRICS_PORT
+                    value: "6005"
+                  - name: HTTP_PORT
+                    value: "9000"
+          hpaSpec:
+            maxReplicas: 1
+            metrics:
+              - resource:
+                  name: cpu
+                  targetAverageUtilization: 80
+                type: Resource
+            minReplicas: 1
+
+  graph:
+          children:
+          endpoint:
+            type: REST
+            service_host: localhost
+            service_port: 9000
+          type: MODEL
+          logger:
+            url: http://logger/
+            mode: all
+        name: predictor
+        annotations:
+          predictor_version: "v1"
+          team: opendatahub
+          seldon.io/svc-name: model-test
+        labels:
+          team: mlops
+          version: v1
+        replicas: 1
