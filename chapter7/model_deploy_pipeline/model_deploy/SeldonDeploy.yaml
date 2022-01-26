@@ -51,7 +51,7 @@ spec:
                     value: "6007"
                   - name: HTTP_PORT
                     value: "9001"
-        graph:
+       graph:
           children:
             - name: {{  model_name }}predictor
               type: MODEL

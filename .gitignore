@@ -3,3 +3,5 @@ personal
 jhub-cm.yaml
 .idea
 *.iml
+/chapter7/model_deploy_pipeline/model_build_push/requirements.txt
+/chapter7/model_deploy_pipeline/model_build_push/model.pkl

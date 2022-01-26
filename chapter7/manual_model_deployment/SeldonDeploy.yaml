@@ -13,7 +13,7 @@ spec:
       - componentSpecs:
         - spec:
             containers:
-              - image: <INSERT CONTAINER LOCATION HERE>
+              - image: quay.io/ml-on-k8s/hellomlflow-manual:1.0.0
                 imagePullPolicy: Always
                 name: model-test-predictor
                 env:
@@ -36,8 +36,9 @@ spec:
                 type: Resource
             minReplicas: 1
 
-  graph:
+        graph:
           children:
+          name: model-test-predictor
           endpoint:
             type: REST
             service_host: localhost

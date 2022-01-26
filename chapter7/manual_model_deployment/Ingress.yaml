@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    project_name: model-test
+    deployment_version: v1
+  labels:
+    app: seldon
+  name: model-test
+
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: <Host Name like model-test.192.168.61.72.nip.io>
+    http:
+      paths:
+      - backend:
+          service:
+            name: model-test
+            port:
+              number: 8000
+        path: /
+        pathType: ImplementationSpecific  
+
+
+
