@@ -42,3 +42,10 @@ vars:
     apiVersion: v1
   fieldref:
     fieldpath: data.AIRFLOW_HOST
+- name: DAG_REPO
+  objref:
+    kind: ConfigMap
+    name: airflowparameters
+    apiVersion: v1
+  fieldref:
+    fieldpath: data.DAG_REPO

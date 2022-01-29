@@ -64,7 +64,7 @@ spec:
             - /git-sync
           env:
             - name: GIT_SYNC_REPO
-              value: 'https://github.com/airflow-dags/dags/'
+              value: $(DAG_REPO)
             - name: GIT_SYNC_DEST
               value: gitdags
             - name: GIT_SYNC_BRANCH
@@ -213,7 +213,7 @@ spec:
             - /git-sync
           env:
             - name: GIT_SYNC_REPO
-              value: 'https://github.com/airflow-dags/dags/'
+              value: $(DAG_REPO)
             - name: GIT_SYNC_DEST
               value: gitdags
             - name: GIT_SYNC_BRANCH
