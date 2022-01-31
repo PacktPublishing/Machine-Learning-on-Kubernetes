@@ -6,17 +6,19 @@ metadata:
     deployment_version: {{  experiment_id }}
   labels:
     app: seldon
-  name: model-{{  experiment_id }}
+  name: model-{{  experiment_id }}-{{ model_name }}
 
 spec:
+  ingressClassName: nginx
   rules:
-  - http:
+  - host: {{ ingress_host }}
+    http:
       paths:
       - backend:
           service:
             name: model-{{  experiment_id }}-{{ model_name }}
             port:
-              number: 8080
+              number: 8000
         path: /
         pathType: ImplementationSpecific  
 
