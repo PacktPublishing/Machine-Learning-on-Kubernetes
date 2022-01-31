@@ -10,7 +10,7 @@ spec:
     project_name: {{  model_name }}
     deployment_version: "{{  experiment_id }}"
   #     seldon.io/engine-separate-pod: "true"
-  name: {{  model_name }}-spec
+  name: {{  model_name }}-speca
   predictors:
       - componentSpecs:
         - hpaSpec:
@@ -51,7 +51,7 @@ spec:
                     value: "6007"
                   - name: HTTP_PORT
                     value: "9001"
-       graph:
+        graph:
           children:
             - name: {{  model_name }}predictor
               type: MODEL
