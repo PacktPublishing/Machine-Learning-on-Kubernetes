@@ -1,3 +1,11 @@
+
+#!pip install jinja2==3.0.1
+#!pip install mlflow==1.20
+#!pip install minio==6.0.2
+#!pip install boto3==1.18.49
+#!pip install scikit-learn==0.24.2
+
+
 import string
 import subprocess
 import os
@@ -17,6 +25,12 @@ from mlflow.tracking import MlflowClient
     MODEL_VERSION is the version of the model in mlflow
 """
 
+# os.environ['MODEL_NAME']='mlflowdemo'
+# os.environ['MODEL_VERSION']='1'
+# os.environ['CONTAINER_REGISTRY_USER']='brigss007'
+# os.environ['CONTAINER_REGISTRY_PASSWORD']='Alienism^69'
+# os.environ['CONTAINER_REGISTRY']='https://index.docker.com/v1/'
+# os.environ['CONTAINER_DETAILS']='mlflowdemo'
 
 
 os.environ['MLFLOW_S3_ENDPOINT_URL']='http://minio-ml-workshop:9000'
@@ -84,11 +98,17 @@ def download_artifacts():
 
 def build_push_image():
     container_location = string.Template("$CONTAINER_REGISTRY/$CONTAINER_DETAILS").substitute(os.environ)
+    
+    #For docker repo, do not include the registry domain name in container location
+    if os.environ["CONTAINER_REGISTRY"].find("docker.io") != -1:
+        container_location= os.environ["CONTAINER_DETAILS"]
+        
     full_command = "/kaniko/executor --context=" + os.getcwd() + " --dockerfile=Dockerfile --verbosity=debug --cache=true --single-snapshot=true --destination=" + container_location
     print(full_command)
     process = subprocess.run(full_command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     print(process.stdout)
     print(process.stderr)
+
     # print(subprocess.check_output(['/kaniko/executor', '--context', '/workspace',  '--dockerfile', 'Dockerfile', '--destination', container_location]))
 
 
