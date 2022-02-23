@@ -1,0 +1,12 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - flights-statefulset.yaml
+  - service.yaml
+
+commonLabels:
+  opendatahub.io/component: "false"
+  component.opendatahub.io/name: "flights-data"
+
+
+

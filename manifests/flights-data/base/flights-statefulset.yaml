@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: flightsdatadb
+  labels:
+    app: flightsdatadb
+spec:
+  serviceName: flightsdatadb
+  replicas: 1
+  updateStrategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: flightsdatadb
+  template:
+    metadata:
+      name: flightsdatadb-postgresql
+      labels:
+        app: flightsdatadb
+    spec:
+#      securityContext:
+#        fsGroup: 26
+#        runAsUser: 26
+      containers:
+        - name: flightsdatadb-postgresql
+          image: quay.io/ml-on-k8s/flights-data:0.0.3
+          imagePullPolicy: "Always"
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          env:
+            - name: POSTGRESQL_ADMIN_PASSWORD
+              value: "postgres"
+            - name: POSTGRESQL_USER
+              value: "user"
+            - name: POSTGRESQL_PASSWORD
+              value: "password"
+            - name: POSTGRESQL_DATABASE
+              value: "flights"
+#            - name: PGDATA
+#              value: /var/lib/pgsql/data/pgdata
+
+          ports:
+            - name: postgresql
+              containerPort: 5432
+          livenessProbe:
+            tcpSocket:
+              port: 5432
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 6
+          readinessProbe:
+            tcpSocket:
+              port: 5432
+
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 6
+#          volumeMounts:
+#            - name: flightsdatadb-data
+#              mountPath: /var/lib/pgsql/data
+#              subPath: pgdata
+#  volumeClaimTemplates:
+#    - metadata:
+#        name: flightsdatadb-data
+#      spec:
+#        accessModes:
+#          - "ReadWriteOnce"
+#        resources:
+#          requests:
+#            storage: "8Gi"
