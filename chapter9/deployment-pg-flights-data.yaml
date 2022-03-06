@@ -5,7 +5,7 @@ metadata:
   labels:
     app: pg-flights-data
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: pg-flights-data
@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: postgres
-        image: quay.io/ml-on-k8s/flights-data
+        image: quay.io/ml-on-k8s/flights-data:0.0.3
         imagePullPolicy: "IfNotPresent"
         ports:
         - containerPort: 5432
