@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pg-flights-data
+  labels:
+    app: pg-flights-data
+spec:
+  type: NodePort
+  ports:
+   - port: 5432
+  selector:
+   app: pg-flights-data
