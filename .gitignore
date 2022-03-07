@@ -6,3 +6,4 @@ jhub-cm.yaml
 /chapter7/model_deploy_pipeline/model_build_push/requirements.txt
 /chapter7/model_deploy_pipeline/model_build_push/model.pkl
 /chapter8/data/flights.csv.bz2
+.DS_Store
