@@ -21,4 +21,5 @@ spec:
         ports:
         - containerPort: 5432
         env:
-          - pgdata: /pg-data
+          - name: PGDATA
+            value: /pg-data
