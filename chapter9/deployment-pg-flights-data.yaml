@@ -20,3 +20,5 @@ spec:
         imagePullPolicy: "IfNotPresent"
         ports:
         - containerPort: 5432
+        env:
+          - pgdata: /pg-data
