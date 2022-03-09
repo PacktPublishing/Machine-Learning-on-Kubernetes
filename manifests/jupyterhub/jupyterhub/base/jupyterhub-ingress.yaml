@@ -24,7 +24,28 @@ spec:
         path: /
         pathType: ImplementationSpecific  
 
-
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: jupyterhub
+  namespace: ml-workshop
+  labels:
+    app: jupyterhub
+    component.opendatahub.io/name: jupyterhub
+    opendatahub.io/component: 'true'
+spec:
+  host: $(JUPYTERHUB_HOST)
+  to:
+    kind: Service
+    name: jupyterhub
+    weight: 100
+  port:
+    targetPort: 8080-tcp
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None
 # ---
 # apiVersion: route.openshift.io/v1
 # kind: Route
