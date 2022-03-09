@@ -91,7 +91,7 @@ spec:
             secretKeyRef:
               name: $(jupyterhub_secret)
               key: CONFIGPROXY_AUTH_TOKEN
-        image: quay.io/odh-jupyterhub/jupyterhub-img:v0.3.6
+        image: quay.io/odh-jupyterhub/jupyterhub-img:v0.3.0
         imagePullPolicy: "Always"
         name: jupyterhub
         ports:
@@ -114,7 +114,7 @@ spec:
               key: POSTGRESQL_PASSWORD
         - name: JUPYTERHUB_DATABASE_HOST
           value: jupyterhub-db
-        image: quay.io/odh-jupyterhub/jupyterhub-img:v0.3.6
+        image: quay.io/odh-jupyterhub/jupyterhub-img:v0.3.0
         imagePullPolicy: "Always"
         name: wait-for-database
         resources:
