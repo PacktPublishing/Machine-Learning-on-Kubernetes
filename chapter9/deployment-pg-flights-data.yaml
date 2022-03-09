@@ -25,8 +25,8 @@ spec:
             value: /pg-data
         resources:
           requests:
-            memory: "2g"
+            memory: "2G"
             cpu: "500m"
           limits:
-            memory: "2g"
+            memory: "2G"
             cpu: "2"
