@@ -187,9 +187,9 @@ def start_spark_cluster(cluster_name = "default", worker_nodes = "2", timeout_se
                 # print(applied_template.render(template_data))
                 oc.create(applied_template.render(template_data))
 
-                route_template = Template(open("spark-cluster-route.yaml").read())
-                print("Creating or updating route for Spark UI... ")
-                oc.apply(route_template.render(template_data))
+                # route_template = Template(open("spark-cluster-route.yaml").read())
+                # print("Creating or updating route for Spark UI... ")
+                # oc.apply(route_template.render(template_data))
 
                 # predicate function to check if the master node and all worker nodes are ready
                 cluster_ready = lambda _: \
