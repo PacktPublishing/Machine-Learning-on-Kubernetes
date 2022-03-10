@@ -9,7 +9,7 @@ spec:
   worker:
     instances: {{ workernodes }}                                      # optional defaults to 1
     memory: "4Gi"                                       # optional no defaults
-    cpu: 2                                              # optional no defaults
+    cpu: 1                                              # optional no defaults
   master:
     instances: "1"                                      # optional defaults to 1
     memory: "1Gi"                                       # optional no defaults
