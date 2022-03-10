@@ -8,7 +8,7 @@ spec:
 #   - org.apache.hadoop:hadoop-aws:2.7.3
   worker:
     instances: {{ workernodes }}                                      # optional defaults to 1
-    memory: "4Gi"                                       # optional no defaults
+    memory: "2Gi"                                       # optional no defaults
     cpu: 1                                              # optional no defaults
   master:
     instances: "1"                                      # optional defaults to 1
