@@ -23,3 +23,10 @@ spec:
         env:
           - name: PGDATA
             value: /pg-data
+        resources:
+          requests:
+            memory: "2G"
+            cpu: "500m"
+          limits:
+            memory: "2G"
+            cpu: "2"
