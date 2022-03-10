@@ -19,7 +19,7 @@ spec:
   sparkWebUI: false                                      # create a service with the Spark UI, defaults to true
   env:                                                  # optional
   - name: SPARK_WORKER_CORES
-    value: 2
+    value: 1
   - name: FOO
     value: bar
   - name: SPARK_METRICS_ON
@@ -28,7 +28,7 @@ spec:
                                                         # kubectl create configmap my-config --from-file=example/config.conf
   sparkConfiguration:                                   # optional, it overrides the config defined above
   - name: spark.executor.memory
-    value: 4
+    value: 2
   - name: spark.sql.conf.autoBroadcastJoinThreshold
     value: 20971520                                     # if the dataframe/RDD size is bigger then this, join operations will use broadcast join
   # downloadData:                                       # optional, it downloads these files to each node
