@@ -1,0 +1,38 @@
+apiVersion: radanalytics.io/v1
+kind: SparkCluster
+metadata:
+  name: {{ clustername }}                               # compulsory
+spec:
+#   mavenDependencies:                                  # optional: array of Maven resources identified by GAVs (groupId:artifactId:version)
+#   - com.amazonaws:aws-java-sdk-pom:1.10.34
+#   - org.apache.hadoop:hadoop-aws:2.7.3
+  worker:
+    instances: {{ workernodes }}                                      # optional defaults to 1
+    memory: "4Gi"                                       # optional no defaults
+    cpu: 2                                              # optional no defaults
+  master:
+    instances: "1"                                      # optional defaults to 1
+    memory: "1Gi"                                       # optional no defaults
+    cpu: 0.5                                            # optional no defaults
+  #customImage: quay.io/radanalyticsio/openshift-spark:2.4-latest   # optional defaults to quay.io/radanalyticsio/openshift-spark:2.4-latest
+  #customImage: 'quay.io/radanalyticsio/openshift-spark-py36:2.4.5-2'
+  customImage: 'quay.io/ml-aml-workshop/spark3:ross'
+  metrics: true                                        # on each pod expose the metrics endpoint on port 7777 for prometheus, defautls to false
+  sparkWebUI: true                                      # create a service with the Spark UI, defaults to true
+  env:                                                  # optional
+  - name: SPARK_WORKER_CORES
+    value: 2
+  - name: FOO
+    value: bar
+  - name: SPARK_METRICS_ON
+    value: prometheus
+  # sparkConfigurationMap: my-config                    # optional defaults to ${name}-config
+                                                        # kubectl create configmap my-config --from-file=example/config.conf
+  sparkConfiguration:                                   # optional, it overrides the config defined above
+  - name: spark.executor.memory
+    value: 4
+  - name: spark.sql.conf.autoBroadcastJoinThreshold
+    value: 20971520                                     # if the dataframe/RDD size is bigger then this, join operations will use broadcast join
+  # downloadData:                                       # optional, it downloads these files to each node
+  # - url: https://raw.githubusercontent.com/radanalyticsio/spark-operator/master/README.md
+  #   to: /tmp/

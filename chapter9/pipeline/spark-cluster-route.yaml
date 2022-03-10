@@ -1,0 +1,20 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: {{ clustername }}-ui
+  labels:
+    radanalytics.io/SparkCluster: spark-cluster-{{ clustername }}
+    radanalytics.io/kind: SparkCluster
+    radanalytics.io/service: ui
+spec:
+#  host: {{ clustername }}-ui-{{ project }}.apps.btpns01.apac-1.rht-labs.com
+  to:
+    kind: Service
+    name: {{ clustername }}-ui
+    weight: 100
+  port:
+    targetPort: 8080
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None
