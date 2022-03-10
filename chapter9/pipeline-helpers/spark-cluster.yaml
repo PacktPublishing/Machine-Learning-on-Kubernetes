@@ -15,8 +15,8 @@ spec:
     memory: "1Gi"                                       # optional no defaults
     cpu: 0.5                                            # optional no defaults
   customImage: 'quay.io/ml-on-k8s/spark:3.0.0'
-  metrics: true                                        # on each pod expose the metrics endpoint on port 7777 for prometheus, defautls to false
-  sparkWebUI: true                                      # create a service with the Spark UI, defaults to true
+  metrics: false                                        # on each pod expose the metrics endpoint on port 7777 for prometheus, defautls to false
+  sparkWebUI: false                                      # create a service with the Spark UI, defaults to true
   env:                                                  # optional
   - name: SPARK_WORKER_CORES
     value: 2
