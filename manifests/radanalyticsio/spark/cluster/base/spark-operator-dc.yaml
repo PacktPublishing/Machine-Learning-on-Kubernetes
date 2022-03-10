@@ -25,6 +25,8 @@ spec:
           value: ml-workshop
         - name: QUARKUS_KUBERNETES_CLIENT_NAMESPACE
           value: ml-workshop  
+        - name: INGRESS_HOST
+          value: $(INGRESS_HOST)  
         image: quay.io/ml-on-k8s/spark-operator:1.3.2
         imagePullPolicy: Always
         name: spark-operator

@@ -84,6 +84,10 @@ spec:
           path: manifests/odhseldon/cluster
       name: odhseldon
     - kustomizeConfig:
+        parameters:
+          - name: INGRESS_HOST  
+            value: .<IP Address>.nip.io
+
         repoRef:
           name: manifests
           path: manifests/radanalyticsio/spark/cluster

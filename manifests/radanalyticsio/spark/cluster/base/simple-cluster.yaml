@@ -4,8 +4,8 @@ metadata:
   name: spark-cluster-admin
   namespace: ml-workshop
 spec:
-  customImage: 'quay.io/ml-aml-workshop/spark3:ross'
-  # customImage: 'quay.io/ml-on-k8s/spark:3.0.0'
+  # customImage: 'quay.io/ml-aml-workshop/spark3:ross'
+  customImage: 'quay.io/ml-on-k8s/spark:3.0.0'
 
   master:
     instances: '1'

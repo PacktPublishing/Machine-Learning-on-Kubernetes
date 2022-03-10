@@ -15,5 +15,17 @@ resources:
 #- subscription.yaml
 
 
-
+configMapGenerator:
+- name: sparkparameters
+  env: params.env
+generatorOptions:
+  disableNameSuffixHash: true
+vars:
+- name: INGRESS_HOST
+  objref:
+    kind: ConfigMap
+    name: sparkparameters
+    apiVersion: v1
+  fieldref:
+    fieldpath: data.INGRESS_HOST
 
