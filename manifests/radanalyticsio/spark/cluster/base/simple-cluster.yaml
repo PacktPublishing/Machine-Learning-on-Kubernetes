@@ -1,14 +1,24 @@
 apiVersion: radanalytics.io/v1
 kind: SparkCluster
 metadata:
-  name: spark-cluster-admin
+  name: spark-cluster-sample
   namespace: ml-workshop
 spec:
-  # customImage: 'quay.io/ml-aml-workshop/spark3:ross'
   customImage: 'quay.io/ml-on-k8s/spark:3.0.0'
 
   master:
     instances: '1'
+    cpu: '1'
+    memory: 2Gi    
   metrics: true
+  SparkWebUI: false
   worker:
     instances: '1'
+    cpu: '1'
+    memory: 2Gi
+  env:
+  - name: SPARK_WORKER_CORES
+    value: "1"
+  sparkConfiguration:
+  - name: spark.sql.conf.autoBroadcastJoinThreshold
+    value: "20971520"    
