@@ -11,7 +11,7 @@ spec:
     cpu: '1'
     memory: 2Gi    
   metrics: true
-  SparkWebUI: false
+  sparkWebUI: false
   worker:
     instances: '1'
     cpu: '1'
