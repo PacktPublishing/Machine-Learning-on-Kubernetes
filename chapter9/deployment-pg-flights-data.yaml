@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: postgres
-        image: quay.io/rbrigoli/pg-flights-data:5.0
+        image: quay.io/ml-on-k8s/pg-flights-data:5.0
         imagePullPolicy: "IfNotPresent"
         ports:
         - containerPort: 5432
