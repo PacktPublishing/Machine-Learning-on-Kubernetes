@@ -11,9 +11,9 @@ spec:
   tags:
   - from:
       kind: DockerImage
-      name: quay.io/ml-on-k8s/scikit-notebook:v1.1.0
+      name: quay.io/ml-on-k8s/scikit-notebook:v1.2.0
     name: latest
 status: 
   tags:
     - tag: latest
-      dockerImageReference: quay.io/ml-on-k8s/scikit-notebook:v1.1.0
+      dockerImageReference: quay.io/ml-on-k8s/scikit-notebook:v1.2.0
