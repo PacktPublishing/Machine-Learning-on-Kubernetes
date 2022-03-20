@@ -18,10 +18,10 @@ data:
       - name: Medium
         resources:
           requests:
-            memory: 4Gi
+            memory: 12Gi
             cpu: 2
           limits:
-            memory: 8Gi
+            memory: 16Gi
             cpu: 4
       - name: Large
         resources:
