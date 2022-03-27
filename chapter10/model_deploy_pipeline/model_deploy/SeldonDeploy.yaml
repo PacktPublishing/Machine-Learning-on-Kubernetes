@@ -1,0 +1,76 @@
+apiVersion: machinelearning.seldon.io/v1
+kind: SeldonDeployment
+metadata:
+  labels:
+    app: seldon
+  name: model-{{  experiment_id }}
+spec:
+  annotations:
+    project_name: {{  model_name }}
+    deployment_version: "{{  experiment_id }}"
+  #     seldon.io/engine-separate-pod: "true"
+  name: {{  model_name }}-specs
+  predictors:
+      - componentSpecs:
+        - spec:
+            containers:
+              - image: {{ model_coordinates }}
+                imagePullPolicy: Always
+                name: transformer
+                env:
+                  - name: MODEL_NAME
+                    value: "Transformer"
+                  - name: SERVICE_TYPE
+                    value: TRANSFORMER
+                  - name: GRPC_PORT
+                    value: "5007"
+                  - name: METRICS_PORT
+                    value: "6007"
+                  - name: HTTP_PORT
+                    value: "9000"
+              - image: {{ model_coordinates }}
+                imagePullPolicy: Always
+                name: predictor
+                env:
+                  - name: MODEL_NAME
+                    value: "Predictor"
+                  - name: SERVICE_TYPE
+                    value: MODEL
+                  - name: GRPC_PORT
+                    value: "5008"
+                  - name: METRICS_PORT
+                    value: "6008"
+                  - name: HTTP_PORT
+                    value: "9001"
+          hpaSpec:
+            maxReplicas: 2
+            metrics:
+              - resource:
+                  name: cpu
+                  targetAverageUtilization: 80
+                type: Resource
+            minReplicas: 1
+        graph:
+          name: transformer
+          type: TRANSFORMER
+          endpoint:
+            type: REST
+            service_host: localhost
+            service_port: 9000
+          children:            
+          - name: predictor
+            type: MODEL
+            endpoint:
+              type: REST
+              service_host: localhost
+              service_port: 9001
+
+        name: {{ model_name }}-predictor
+        annotations:
+          predictor_version: "{{  experiment_id }}"
+          team: opendatahub
+          seldon.io/svc-name: model-{{  experiment_id }}-{{ model_name }}
+        labels:
+          team: opendatahub
+          version: v1
+        replicas: 1

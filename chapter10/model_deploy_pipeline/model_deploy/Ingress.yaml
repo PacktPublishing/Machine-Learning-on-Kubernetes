@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    project_name: {{  model_name }}
+    deployment_version: {{  experiment_id }}
+  labels:
+    app: seldon
+  name: model-{{  experiment_id }}-{{ model_name }}
+
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: {{ ingress_host }}
+    http:
+      paths:
+      - backend:
+          service:
+            name: model-{{  experiment_id }}-{{ model_name }}
+            port:
+              number: 8000
+        path: /
+        pathType: ImplementationSpecific  
+
+
+

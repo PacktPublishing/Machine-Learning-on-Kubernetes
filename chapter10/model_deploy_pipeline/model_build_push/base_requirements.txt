@@ -1,0 +1,4 @@
+seldon-core
+joblib
+#category_encoders==2.2.2
+#dill

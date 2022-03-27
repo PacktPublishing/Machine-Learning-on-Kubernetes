@@ -4,7 +4,7 @@ metadata:
   name: odh-monitoring
   labels:
     app: odh-monitoring
-  # namespace: prometheus
+    namespace: ml-workshop
 spec:
   replicas: 1
   serviceAccountName: prometheus-k8s
