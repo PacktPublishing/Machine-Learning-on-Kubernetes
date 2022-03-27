@@ -4,4 +4,4 @@ metadata:
   name: opendatahub
 spec:
   targetNamespaces:
-    - $(namespace)
+    - ml-workshop
