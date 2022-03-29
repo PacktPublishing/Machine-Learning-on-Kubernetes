@@ -60,10 +60,19 @@ def download_artifacts():
     model = client.get_registered_model(model_name)
 
     print(model)
+    
+    for latest_version in model.latest_versions:
+        if latest_version.version != model_version:
+            continue
 
-    run_id = model._latest_version[0].run_id
-    source = model._latest_version[0].source
-    experiment_id = "1" # to be calculated from the source which is source='s3://mlflow/1/bf721e5641394ed6866baf20131fca20/artifacts/model'
+        run_id = latest_version.run_id
+        source = latest_version.source
+        experiment_id = latest_version.source.split("/")[3]
+        print(latest_version)    
+
+    # run_id = model._latest_version[0].run_id
+    # source = model._latest_version[0].source
+    # experiment_id = "1" # to be calculated from the source which is source='s3://mlflow/1/bf721e5641394ed6866baf20131fca20/artifacts/model'
 
     print("initializing connection to s3 server...")
     minioClient = get_s3_server()
@@ -75,7 +84,7 @@ def download_artifacts():
     data_file_requirements = minioClient.fget_object("mlflow", f"/{experiment_id}/{run_id}/artifacts/model/requirements.txt", "requirements.txt")
     
     #download all the pkl files from this location
-    pkl_objects = minioClient.list_objects("mlflow", recursive=True, prefix=f"{experiment_id}/{run_id}/artifcats/")
+    pkl_objects = minioClient.list_objects("mlflow", recursive=True, prefix=f"/{experiment_id}/{run_id}")
     for pkl_object in pkl_objects:
         print(pkl_object)
         pkl_object_name = pkl_object.object_name

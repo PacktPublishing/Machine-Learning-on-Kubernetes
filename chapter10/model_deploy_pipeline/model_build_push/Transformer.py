@@ -6,7 +6,7 @@ class Transformer(object):
     this class loads the encoder filesets and apply it to the data passed
     """
     def __init__(self):
-        self.encoder = joblib.load('FlightsDelayOrdinalEncoder.pkl')
+        self.encoder = joblib.load('FlgithsDelayOrdinalEncoder.pkl')
 
     def transform_input(self, X, feature_names, meta):
         '''

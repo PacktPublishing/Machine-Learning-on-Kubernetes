@@ -1,6 +1,10 @@
 import openshift as oc
 import os, time
 from jinja2 import Template
+from mlflow.tracking import MlflowClient
+import mlflow
+
+HOST = "http://mlflow:5500"
 
 model_name = os.environ["MODEL_NAME"]
 model_version = os.environ["MODEL_VERSION"]
@@ -8,8 +12,25 @@ cluster_dns = os.environ["CLUSTER_DOMAIN_NAME"]
 
 ingress_host = f"{model_name}.{cluster_dns}"
 
-# temp
-run_id = "1"
+build_name = f"seldon-model-{model_name}-v{model_version}"
+
+mlflow.set_tracking_uri(HOST)
+
+client = MlflowClient()
+
+model = client.get_registered_model(model_name)
+
+print(model)
+
+for latest_version in model.latest_versions:
+    if latest_version.version != model_version:
+        continue
+    
+    run_id = latest_version.run_id
+    source = latest_version.source
+    experiment_id = latest_version.source.split("/")[3]
+    print(latest_version)
+
 
 model_container_location = os.environ["CONTAINER_DETAILS"]
 
