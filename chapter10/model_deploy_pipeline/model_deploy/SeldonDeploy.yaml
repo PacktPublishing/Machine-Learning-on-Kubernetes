@@ -69,8 +69,8 @@ spec:
         annotations:
           predictor_version: "{{  experiment_id }}"
           team: opendatahub
-          # seldon.io/svc-name: model-{{  experiment_id }}-{{ model_name }}
-          seldon.io/svc-name: model-{{  experiment_id }}
+          seldon.io/svc-name: model-{{  experiment_id }}-{{ model_name }}
+          # seldon.io/svc-name: model-{{  experiment_id }}
         labels:
           team: opendatahub
           version: v1
