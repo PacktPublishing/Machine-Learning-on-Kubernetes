@@ -65,7 +65,7 @@ spec:
               service_host: localhost
               service_port: 9001
 
-        name: {{ model_name }}-predictor
+        name: {{ model_name }}
         annotations:
           predictor_version: "{{  experiment_id }}"
           team: opendatahub
