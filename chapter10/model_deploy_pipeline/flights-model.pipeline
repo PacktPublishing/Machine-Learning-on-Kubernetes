@@ -83,7 +83,7 @@
               "MODEL_NAME=flights-ontime",
               "MODEL_VERSION=1",
               "CONTAINER_DETAILS=quay.io/ml-on-k8s/container-model:2.0.0",
-              "CLUSTER_DOMAIN_NAME=192.168.39.216.nio.io"
+              "CLUSTER_DOMAIN_NAME=192.168.39.216.nip.io"
             ],
             "dependencies": [
               "SeldonDeploy.yaml",
