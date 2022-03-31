@@ -1,0 +1,56 @@
+{
+    "data": {
+        "names": [
+            "month",
+            "day",
+            "day_of_week",
+            "airline",
+            "flight_number",
+            "origin_airport",
+            "destination_airport",
+            "scheduled_time",
+            "elapsed_time",
+            "air_time",
+            "distance",
+            "ORIG_CITY",
+            "ORIG_STATE",
+            "ORIG_LATITUDE",
+            "ORIG_LONGITUDE",
+            "DEST_CITY",
+            "DEST_STATE",
+            "DEST_LATITUDE",
+            "DEST_LONGITUDE",
+            "scheduled_departure_hour",
+            "scheduled_departure_minute",
+            "scheduled_arrival_hour",
+            "scheduled_arrival_minute"
+        ],
+        "ndarray": [
+            [
+                9,
+                9,
+                3,
+                "WN",
+                611,
+                "LGA",
+                "DAL",
+                89.0,
+                82.0,
+                64.0,
+                447,
+                "New York",
+                "NY",
+                32.73356,
+                -117.18966,
+                "Dallas",
+                "TX",
+                37.619,
+                -122.37484,
+                15,
+                31,
+                17,
+                0
+            ]
+        ]
+    }
+}

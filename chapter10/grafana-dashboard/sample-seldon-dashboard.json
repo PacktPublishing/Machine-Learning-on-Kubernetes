@@ -1,0 +1,1282 @@
+{
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": "-- Grafana --",
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "target": {
+            "limit": 100,
+            "matchAny": false,
+            "tags": [],
+            "type": "dashboard"
+          },
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "id": 1,
+    "iteration": 1648721109773,
+    "links": [],
+    "liveNow": false,
+    "panels": [
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 40,
+        "panels": [],
+        "title": "Heading",
+        "type": "row"
+      },
+      {
+        "gridPos": {
+          "h": 3,
+          "w": 24,
+          "x": 0,
+          "y": 1
+        },
+        "id": 27,
+        "links": [],
+        "options": {
+          "content": "<div class=\"text-center dashboard-header\">\n  <span>Seldon Core API Dashboard</span>\n</div>",
+          "mode": "html"
+        },
+        "pluginVersion": "8.3.3",
+        "type": "text"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 4
+        },
+        "id": 41,
+        "panels": [],
+        "title": "Global Counts",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "HPonbHsnk"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "fixedColor": "rgb(31, 120, 193)",
+              "mode": "fixed"
+            },
+            "mappings": [
+              {
+                "options": {
+                  "match": "null",
+                  "result": {
+                    "text": "N/A"
+                  }
+                },
+                "type": "special"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "ops"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 6,
+          "x": 0,
+          "y": 5
+        },
+        "id": 16,
+        "links": [],
+        "maxDataPoints": 100,
+        "options": {
+          "colorMode": "none",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "horizontal",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "8.3.3",
+        "targets": [
+          {
+            "expr": "round(sum(irate(seldon_api_executor_server_requests_seconds_count[1m])),0.001)",
+            "format": "time_series",
+            "instant": false,
+            "intervalFactor": 2,
+            "refId": "A",
+            "step": 20
+          }
+        ],
+        "title": "Global Request Rate",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "HPonbHsnk"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "fixedColor": "rgb(31, 120, 193)",
+              "mode": "fixed"
+            },
+            "mappings": [
+              {
+                "options": {
+                  "match": "null",
+                  "result": {
+                    "text": "N/A"
+                  }
+                },
+                "type": "special"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "percentunit"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 6,
+          "x": 6,
+          "y": 5
+        },
+        "id": 17,
+        "links": [],
+        "maxDataPoints": 100,
+        "options": {
+          "colorMode": "none",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "horizontal",
+          "reduceOptions": {
+            "calcs": [
+              "mean"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "8.3.3",
+        "targets": [
+          {
+            "expr": "sum(rate(seldon_api_executor_server_requests_seconds_count{status!~\"5.*\"}[1m])) / sum(rate(seldon_api_executor_server_requests_seconds_count[1m]))",
+            "format": "time_series",
+            "intervalFactor": 2,
+            "refId": "A",
+            "step": 20
+          }
+        ],
+        "title": "Success",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "HPonbHsnk"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "fixedColor": "rgb(31, 120, 193)",
+              "mode": "fixed"
+            },
+            "mappings": [
+              {
+                "options": {
+                  "match": "null",
+                  "result": {
+                    "text": "N/A"
+                  }
+                },
+                "type": "special"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "ops"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 6,
+          "x": 12,
+          "y": 5
+        },
+        "id": 18,
+        "links": [],
+        "maxDataPoints": 100,
+        "options": {
+          "colorMode": "none",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "horizontal",
+          "reduceOptions": {
+            "calcs": [
+              "mean"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "8.3.3",
+        "targets": [
+          {
+            "expr": "sum(irate(seldon_api_executor_server_requests_seconds_count{status=~\"4.*\"}[1m])) ",
+            "format": "time_series",
+            "intervalFactor": 2,
+            "refId": "A",
+            "step": 20
+          }
+        ],
+        "title": "4xxs",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "HPonbHsnk"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "fixedColor": "rgb(31, 120, 193)",
+              "mode": "fixed"
+            },
+            "mappings": [
+              {
+                "options": {
+                  "match": "null",
+                  "result": {
+                    "text": "N/A"
+                  }
+                },
+                "type": "special"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "ops"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 6,
+          "x": 18,
+          "y": 5
+        },
+        "id": 19,
+        "links": [],
+        "maxDataPoints": 100,
+        "options": {
+          "colorMode": "none",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "horizontal",
+          "reduceOptions": {
+            "calcs": [
+              "mean"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "8.3.3",
+        "targets": [
+          {
+            "expr": "sum(irate(seldon_api_executor_server_requests_seconds_count{status=~\"5.*\"}[1m])) ",
+            "format": "time_series",
+            "hide": false,
+            "intervalFactor": 2,
+            "refId": "A",
+            "step": 20
+          }
+        ],
+        "title": "5xxs",
+        "type": "stat"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 8
+        },
+        "id": 42,
+        "panels": [],
+        "repeat": "deployment",
+        "title": "Deployment Counts $deployment",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "HPonbHsnk"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "fixedColor": "rgb(31, 120, 193)",
+              "mode": "fixed"
+            },
+            "mappings": [
+              {
+                "options": {
+                  "match": "null",
+                  "result": {
+                    "text": "N/A"
+                  }
+                },
+                "type": "special"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "ops"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 6,
+          "x": 0,
+          "y": 9
+        },
+        "id": 36,
+        "links": [],
+        "maxDataPoints": 100,
+        "options": {
+          "colorMode": "none",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "horizontal",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "8.3.3",
+        "targets": [
+          {
+            "expr": "round(sum(irate(seldon_api_executor_client_requests_seconds_count{deployment_name=~'$deployment'}[1m])), 0.001)",
+            "format": "time_series",
+            "intervalFactor": 2,
+            "refId": "A",
+            "step": 20
+          }
+        ],
+        "title": "Request Rate ($deployment)",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "HPonbHsnk"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "fixedColor": "rgb(31, 120, 193)",
+              "mode": "fixed"
+            },
+            "mappings": [
+              {
+                "options": {
+                  "match": "null",
+                  "result": {
+                    "text": "N/A"
+                  }
+                },
+                "type": "special"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "percentunit"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 6,
+          "x": 6,
+          "y": 9
+        },
+        "id": 37,
+        "links": [],
+        "maxDataPoints": 100,
+        "options": {
+          "colorMode": "none",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "horizontal",
+          "reduceOptions": {
+            "calcs": [
+              "mean"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "8.3.3",
+        "targets": [
+          {
+            "expr": "sum(rate(seldon_api_executor_client_requests_seconds_count{deployment_name=~\"$deployment\",status!~\"5.*\"}[1m])) / sum(rate(seldon_api_executor_client_requests_seconds_count{deployment_name=~\"$deployment\"}[1m]))",
+            "format": "time_series",
+            "intervalFactor": 2,
+            "refId": "A",
+            "step": 20
+          }
+        ],
+        "title": "Success ($deployment)",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "HPonbHsnk"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "fixedColor": "rgb(31, 120, 193)",
+              "mode": "fixed"
+            },
+            "mappings": [
+              {
+                "options": {
+                  "match": "null",
+                  "result": {
+                    "text": "N/A"
+                  }
+                },
+                "type": "special"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "ops"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 6,
+          "x": 12,
+          "y": 9
+        },
+        "id": 38,
+        "links": [],
+        "maxDataPoints": 100,
+        "options": {
+          "colorMode": "none",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "horizontal",
+          "reduceOptions": {
+            "calcs": [
+              "mean"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "8.3.3",
+        "targets": [
+          {
+            "expr": "sum(irate(seldon_api_executor_client_requests_seconds_count{deployment_name=~\"$deployment\",status=~\"4.*\"}[1m]))",
+            "format": "time_series",
+            "intervalFactor": 2,
+            "refId": "A",
+            "step": 20
+          }
+        ],
+        "title": "4xxs ($deployment)",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "HPonbHsnk"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "fixedColor": "rgb(31, 120, 193)",
+              "mode": "fixed"
+            },
+            "mappings": [
+              {
+                "options": {
+                  "match": "null",
+                  "result": {
+                    "text": "N/A"
+                  }
+                },
+                "type": "special"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "ops"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 6,
+          "x": 18,
+          "y": 9
+        },
+        "id": 39,
+        "links": [],
+        "maxDataPoints": 100,
+        "options": {
+          "colorMode": "none",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "horizontal",
+          "reduceOptions": {
+            "calcs": [
+              "mean"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "8.3.3",
+        "targets": [
+          {
+            "expr": "sum(irate(seldon_api_executor_client_requests_seconds_count{deployment_name=~\"$deployment\",status=~\"5.*\"}[1m]))",
+            "format": "time_series",
+            "hide": false,
+            "intervalFactor": 2,
+            "refId": "A",
+            "step": 20
+          }
+        ],
+        "title": "5xxs ($deployment)",
+        "type": "stat"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 12
+        },
+        "id": 43,
+        "panels": [],
+        "title": "Models",
+        "type": "row"
+      },
+      {
+        "gridPos": {
+          "h": 3,
+          "w": 24,
+          "x": 0,
+          "y": 13
+        },
+        "id": 8,
+        "links": [],
+        "options": {
+          "content": "<div class=\"text-center dashboard-header\">\n  <span>Models</span>\n</div>",
+          "mode": "html"
+        },
+        "pluginVersion": "8.3.3",
+        "type": "text"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 16
+        },
+        "id": 44,
+        "panels": [],
+        "repeat": "model_image",
+        "title": "Model Metrics $model_image",
+        "type": "row"
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": {
+          "type": "prometheus",
+          "uid": "HPonbHsnk"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "links": []
+          },
+          "overrides": []
+        },
+        "fill": 1,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 8,
+          "x": 0,
+          "y": 17
+        },
+        "hiddenSeries": false,
+        "id": 7,
+        "legend": {
+          "avg": false,
+          "current": false,
+          "max": false,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": false
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "8.3.3",
+        "pointradius": 5,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "sum(rate(seldon_api_executor_client_requests_seconds_count{model_name=~\"$model_name\",model_version=~\"$model_version\",model_image=~\"$model_image\",predictor_name=~\"$predictor\",predictor_version=~\"$version\"}[5s])) by (model_name,predictor_name,predictor_version,model_image,model_version,service)",
+            "format": "time_series",
+            "hide": false,
+            "intervalFactor": 2,
+            "legendFormat": "{{predictor_name}}:{{predictor_version}} ({{model_name}} {{model_image}} : {{model_version}}) {{service}}",
+            "metric": "io_seldon_apife_api_rest_RestClientController_home_snapshot_75thPercentile",
+            "refId": "A",
+            "step": 2
+          }
+        ],
+        "thresholds": [],
+        "timeRegions": [],
+        "title": "Reqs/sec to $model_image",
+        "tooltip": {
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "mode": "time",
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "short",
+            "logBase": 1,
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "logBase": 1,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": {
+          "type": "prometheus",
+          "uid": "HPonbHsnk"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "links": []
+          },
+          "overrides": []
+        },
+        "fill": 1,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 8,
+          "x": 8,
+          "y": 17
+        },
+        "hiddenSeries": false,
+        "id": 28,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": false,
+          "max": false,
+          "min": false,
+          "rightSide": false,
+          "show": true,
+          "total": false,
+          "values": false
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "8.3.3",
+        "pointradius": 5,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "rate(seldon_api_model_feedback_reward_total{deployment_name=~\"$deployment\",predictor_name=~\"$predictor\",predictor_version=~\"$version\",model_image=~\"$model_image\",model_version=~\"$model_version\",model_name=~\"$model_name\"}[1m])/rate(seldon_api_model_feedback_total{deployment_name=~\"$deployment\",predictor_name=~\"$predictor\",predictor_version=~\"$version\",model_image=~\"$model_image\",model_version=~\"$model_version\",model_name=~\"$model_name\"}[1m])",
+            "format": "time_series",
+            "hide": false,
+            "intervalFactor": 2,
+            "legendFormat": "{{deployment_name}}/{{predictor_name}}:{{predictor_version}}  {{model_name}} {{model_image}} : {{model_version}}",
+            "metric": "",
+            "refId": "A",
+            "step": 2
+          }
+        ],
+        "thresholds": [],
+        "timeRegions": [],
+        "title": "$model_image Reward",
+        "tooltip": {
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "mode": "time",
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "short",
+            "logBase": 1,
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "logBase": 1,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": {
+          "type": "prometheus",
+          "uid": "HPonbHsnk"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "links": []
+          },
+          "overrides": []
+        },
+        "fill": 1,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 8,
+          "x": 16,
+          "y": 17
+        },
+        "hiddenSeries": false,
+        "id": 11,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": false,
+          "max": false,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": false
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "8.3.3",
+        "pointradius": 5,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.5, sum(rate(seldon_api_executor_client_requests_seconds_bucket{service=~\"/Predict\", model_image=~\"$model_image\",predictor_name=~\"$predictor\",predictor_version=~\"$version\",model_name=~\"$model_name\",model_version=~\"$model_version\"}[20s])) by (predictor_name,predictor_version,model_name,model_image,model_version,le))",
+            "format": "time_series",
+            "hide": false,
+            "intervalFactor": 2,
+            "legendFormat": "{{predictor_name}}:{{predictor_version}} {{model_name}} {{model_image}}: {{model_version}} (p50)",
+            "metric": "",
+            "refId": "E",
+            "step": 2
+          },
+          {
+            "expr": "histogram_quantile(0.75, sum(rate(seldon_api_executor_client_requests_seconds_bucket{service=~\".*[Pp]redict\",model_image=~\"$model_image\",predictor_name=~\"$predictor\",predictor_version=~\"$version\",model_name=~\"$model_name\",model_version=~\"$model_version\"}[20s])) by (predictor_name,predictor_version,model_name,model_image,model_version,service,le))",
+            "format": "time_series",
+            "hide": false,
+            "intervalFactor": 2,
+            "legendFormat": "{{predictor_name}}:{{predictor_version}} {{model_name}} {{model_image}}:{{model_version}} {{service}} (p75)",
+            "metric": "",
+            "refId": "B",
+            "step": 2
+          },
+          {
+            "expr": "histogram_quantile(0.9, sum(rate(seldon_api_executor_client_requests_seconds_bucket{service=~\".*[Pp]redict\",model_image=~\"$model_image\",predictor_name=~\"$predictor\",predictor_version=~\"$version\",model_name=~\"$model_name\",model_version=~\"$model_version\"}[20s])) by (predictor_name,predictor_version,model_name,model_image,model_version, service,le))",
+            "format": "time_series",
+            "hide": false,
+            "intervalFactor": 2,
+            "legendFormat": "{{predictor_name}}:{{predictor_version}} {{model_name}} {{model_image}}:{{model_version}}  {{service}} (p90)",
+            "metric": "",
+            "refId": "A",
+            "step": 2
+          },
+          {
+            "expr": "histogram_quantile(0.95, sum(rate(seldon_api_executor_client_requests_seconds_bucket{service=~\".*[Pp]redict\",model_image=~\"$model_image\",predictor_name=~\"$predictor\",predictor_version=~\"$version\",model_name=~\"$model_name\",model_version=~\"$model_version\"}[20s])) by (predictor_name,predictor_version,model_name,model_image,model_version,service,le))",
+            "format": "time_series",
+            "hide": false,
+            "intervalFactor": 2,
+            "legendFormat": "{{predictor_name}}:{{predictor_version}} {{model_name}} {{model_image}}:{{model_version}} {{service}} (p95)",
+            "metric": "",
+            "refId": "C",
+            "step": 2
+          },
+          {
+            "expr": "histogram_quantile(0.99, sum(rate(seldon_api_executor_client_requests_seconds_bucket{service=~\".*[Pp]redict\",model_image=~\"$model_image\",predictor_name=~\"$predictor\",predictor_version=~\"$version\",model_name=~\"$model_name\",model_version=~\"$model_version\"}[20s])) by (predictor_name,predictor_version,model_name,model_image,model_version,service,le))",
+            "format": "time_series",
+            "hide": false,
+            "intervalFactor": 2,
+            "legendFormat": "{{predictor_name}}:{{predictor_version}} {{model_name}} {{model_image}}:{{model_version}} {{service}} (p99)",
+            "metric": "",
+            "refId": "D",
+            "step": 2
+          }
+        ],
+        "thresholds": [],
+        "timeRegions": [],
+        "title": "$model_image Latency",
+        "tooltip": {
+          "shared": false,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "mode": "time",
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "short",
+            "logBase": 1,
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "logBase": 1,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false
+        }
+      }
+    ],
+    "refresh": "5s",
+    "schemaVersion": 34,
+    "style": "dark",
+    "tags": [
+      "seldon"
+    ],
+    "templating": {
+      "list": [
+        {
+          "allValue": ".*",
+          "current": {
+            "selected": true,
+            "text": [
+              "All"
+            ],
+            "value": [
+              "$__all"
+            ]
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "HPonbHsnk"
+          },
+          "definition": "label_values(seldon_api_executor_client_requests_seconds_count,deployment_name)",
+          "hide": 0,
+          "includeAll": true,
+          "multi": true,
+          "name": "deployment",
+          "options": [],
+          "query": {
+            "query": "label_values(seldon_api_executor_client_requests_seconds_count,deployment_name)",
+            "refId": "prometheus-deployment-Variable-Query"
+          },
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "tagValuesQuery": "",
+          "tagsQuery": "",
+          "type": "query",
+          "useTags": false
+        },
+        {
+          "allValue": ".*",
+          "current": {
+            "selected": false,
+            "text": "All",
+            "value": "$__all"
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "HPonbHsnk"
+          },
+          "definition": "label_values(seldon_api_executor_client_requests_seconds_count,predictor_name)",
+          "hide": 0,
+          "includeAll": true,
+          "multi": true,
+          "name": "predictor",
+          "options": [],
+          "query": {
+            "query": "label_values(seldon_api_executor_client_requests_seconds_count,predictor_name)",
+            "refId": "prometheus-predictor-Variable-Query"
+          },
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "tagValuesQuery": "",
+          "tagsQuery": "",
+          "type": "query",
+          "useTags": false
+        },
+        {
+          "allValue": ".*",
+          "current": {
+            "selected": false,
+            "text": "All",
+            "value": "$__all"
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "HPonbHsnk"
+          },
+          "definition": "label_values(seldon_api_executor_client_requests_seconds_count,predictor_version)",
+          "hide": 0,
+          "includeAll": true,
+          "multi": true,
+          "name": "version",
+          "options": [],
+          "query": {
+            "query": "label_values(seldon_api_executor_client_requests_seconds_count,predictor_version)",
+            "refId": "prometheus-version-Variable-Query"
+          },
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "tagValuesQuery": "",
+          "tagsQuery": "",
+          "type": "query",
+          "useTags": false
+        },
+        {
+          "allValue": ".*",
+          "current": {
+            "selected": false,
+            "text": "All",
+            "value": "$__all"
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "HPonbHsnk"
+          },
+          "definition": "label_values(seldon_api_executor_client_requests_seconds_count,model_name)",
+          "hide": 0,
+          "includeAll": true,
+          "multi": true,
+          "name": "model_name",
+          "options": [],
+          "query": {
+            "query": "label_values(seldon_api_executor_client_requests_seconds_count,model_name)",
+            "refId": "prometheus-model_name-Variable-Query"
+          },
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "tagValuesQuery": "",
+          "tagsQuery": "",
+          "type": "query",
+          "useTags": false
+        },
+        {
+          "allValue": ".*",
+          "current": {
+            "selected": false,
+            "text": "All",
+            "value": "$__all"
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "HPonbHsnk"
+          },
+          "definition": "label_values(seldon_api_executor_client_requests_seconds_count,model_image)",
+          "hide": 0,
+          "includeAll": true,
+          "multi": true,
+          "name": "model_image",
+          "options": [],
+          "query": {
+            "query": "label_values(seldon_api_executor_client_requests_seconds_count,model_image)",
+            "refId": "prometheus-model_image-Variable-Query"
+          },
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "tagValuesQuery": "",
+          "tagsQuery": "",
+          "type": "query",
+          "useTags": false
+        },
+        {
+          "allValue": ".*",
+          "current": {
+            "selected": false,
+            "text": "All",
+            "value": "$__all"
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "HPonbHsnk"
+          },
+          "definition": "label_values(seldon_api_executor_client_requests_seconds_count,model_version)",
+          "hide": 0,
+          "includeAll": true,
+          "multi": true,
+          "name": "model_version",
+          "options": [],
+          "query": {
+            "query": "label_values(seldon_api_executor_client_requests_seconds_count,model_version)",
+            "refId": "prometheus-model_version-Variable-Query"
+          },
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "tagValuesQuery": "",
+          "tagsQuery": "",
+          "type": "query",
+          "useTags": false
+        }
+      ]
+    },
+    "time": {
+      "from": "now-15m",
+      "to": "now"
+    },
+    "timepicker": {
+      "refresh_intervals": [
+        "5s",
+        "10s",
+        "30s",
+        "1m",
+        "5m",
+        "15m",
+        "30m",
+        "1h",
+        "2h",
+        "1d"
+      ],
+      "time_options": [
+        "5m",
+        "15m",
+        "1h",
+        "6h",
+        "12h",
+        "24h",
+        "2d",
+        "7d",
+        "30d"
+      ]
+    },
+    "timezone": "browser",
+    "title": "Prediction Analytics",
+    "uid": "U1cSDzyZz",
+    "version": 4,
+    "weekStart": ""
+  }
