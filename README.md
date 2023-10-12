@@ -62,6 +62,9 @@ recommend running a virtual machine on Google Cloud or any other cloud platform
 
 We also provide a PDF file that has color images of the screenshots/diagrams used in this book. [Click here to download it](https://static.packt-cdn.com/downloads/9781803241807_ColorImages.pdf).
 
+## Errata and Troubleshooting tips
+
+* _Chapter 10:_ If you encounter the following error in chapter 10, "seldon_core.wrapper:handle_invalid_usage:60 - ERROR: {'status': {'status': 1, 'info': 'Invalid request data type", try using the following [data.json](https://github.com/PacktPublishing/Machine-Learning-on-Kubernetes/blob/7f2d7537d753514728cc5abd4f7e19deafbbc82f/chapter10/inference/data.json) file. More details regarding this error can be found here in this [issue thread](https://github.com/PacktPublishing/Machine-Learning-on-Kubernetes/issues/15#issuecomment-1757346265), courtesy of our readers @aquynh1682 and @webmakaka.
 
 ### Related products <Other books you may enjoy>
 * The Kubernetes Workshop [[Packt]](https://www.packtpub.com/product/the-kubernetes-workshop/9781838820756?utm_source=github&utm_medium=repository&utm_campaign=9781838820756) [[Amazon]](https://www.amazon.com/dp/1838820752)
